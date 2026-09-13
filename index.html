@@ -71,7 +71,7 @@
   .cat-head h2{font-size:30px;}
   .cat-head p{color:var(--ink-soft);font-size:14.5px;max-width:360px;}
   .grid{display:grid;grid-template-columns:repeat(3,1fr);gap:22px;}
-  .card{background:var(--paper);border:1px solid var(--line);border-radius:18px;display:flex;flex-direction:column;overflow:hidden;}
+  .card{background:var(--paper);border:1px solid var(--line);border-radius:18px;display:flex;flex-direction:column;overflow:hidden;position:relative;}
   .card-art{height:150px;display:flex;align-items:center;justify-content:center;position:relative;}
   .card-art svg{width:72px;height:72px;}
   .card-body{padding:18px 20px 20px;display:flex;flex-direction:column;gap:8px;flex:1;}
@@ -88,7 +88,7 @@
   .cert-card .card-art{background:linear-gradient(135deg,var(--plum) 0%, var(--plum-dark) 100%);}
   .cert-card .price{color:var(--plum);}
   .set-card{border-color:var(--gold);}
-  .set-tag{position:absolute;top:12px;left:12px;background:var(--gold);color:#fff;font-size:11.5px;font-weight:700;padding:4px 10px;border-radius:999px;}
+  .set-tag{position:absolute;top:12px;left:12px;background:var(--gold);color:#fff;font-size:11.5px;font-weight:700;padding:4px 10px;border-radius:999px;z-index:2;}
 
   .cta-band{margin:70px auto 0;max-width:1160px;padding:0 24px;}
   .cta-inner{background:var(--plum);color:#fff;border-radius:24px;padding:48px 40px;display:grid;grid-template-columns:1.3fr 0.7fr;gap:24px;align-items:center;}
@@ -190,7 +190,7 @@
     </div>
     <div class="header-actions">
       <div class="lang-switch">
-        <button class="lang-btn" id="langBtnKk" onclick="setLanguage('kk')">ҚАЗ</button>
+        <button class="lang-btn active" id="langBtnKk" onclick="setLanguage('kk')">ҚАЗ</button>
         <button class="lang-btn" id="langBtnRu" onclick="setLanguage('ru')">РУС</button>
       </div>
       <div class="phone-line">
@@ -520,7 +520,7 @@ const STRINGS = {
     wa_greet_generic: "Сәлеметсіз бе! ",
     wa_generic_product: "Мен мына позицияны тапсырыс бермек едім: ",
     wa_generic_city_suffix: ". Қарағанды қаласы.",
-    wa_generic_no_product: "Мәзірден тапсырыс беруге болады ма? Қарағанды қаласы.",
+    wa_generic_no_product: "Мәзірден тапсырыс беруге бола ма? Қарағанды қаласы.",
     price_from: "бастап",
     cert_label: "Сертификат",
     weight_prefix: "Салмағы: "
@@ -745,8 +745,8 @@ const PRODUCTS = [
   {id:"mac-meringue", cat:"makarons", type:"macaron", name:"Безе себет тәттісі", name_ru:"Безе-корзиночка", desc:"Жеке қытырлақ безе, жеңіл әрі әуе секілді.", desc_ru:"Порционное хрустящее безе, лёгкое и воздушное.", variants:[{weight:"60 г",price:690}]},
 
   {id:"set-mereke", cat:"setter", type:"set", name:'"Мереке" сеті', name_ru:'Сет "Мереке"', desc:"Торт кесегі, десерт және макаронстан тұратын жинақ.", desc_ru:"Набор из кусочка торта, десерта и макаронс.", variants:[{weight:"2 адамға",weight_ru:"на 2 человека",price:6900}], tag:"Танымал", tag_ru:"Популярно"},
-  {id:"cert-10000", cat:"setter", type:"set", name:"Сый сертификаты — 10 000 ₸", name_ru:"Подарочный сертификат — 10 000 ₸", desc:"Кез келген позицияға қолданылады, мерзімі шектелмеген.", desc_ru:"Действует на любую позицию, срок не ограничен.", variants:[{weight:"—",price:10000}]},
-  {id:"cert-20000", cat:"setter", type:"set", name:"Сый сертификаты — 20 000 ₸", name_ru:"Подарочный сертификат — 20 000 ₸", desc:"Кез келген позицияға қолданылады, мерзімі шектелмеген.", desc_ru:"Действует на любую позицию, срок не ограничен.", variants:[{weight:"—",price:20000}]}
+  {id:"cert-10000", cat:"setter", type:"set", isCert:true, name:"Сый сертификаты — 10 000 ₸", name_ru:"Подарочный сертификат — 10 000 ₸", desc:"Кез келген позицияға қолданылады, мерзімі шектелмеген.", desc_ru:"Действует на любую позицию, срок не ограничен.", variants:[{weight:"—",price:10000}]},
+  {id:"cert-20000", cat:"setter", type:"set", isCert:true, name:"Сый сертификаты — 20 000 ₸", name_ru:"Подарочный сертификат — 20 000 ₸", desc:"Кез келген позицияға қолданылады, мерзімі шектелмеген.", desc_ru:"Действует на любую позицию, срок не ограничен.", variants:[{weight:"—",price:20000}]}
 ];
 
 function pname(item){return currentLang==="ru" ? item.name_ru : item.name;}
@@ -761,8 +761,9 @@ function priceLabel(item){
 }
 
 function buildCard(item){
+  const cardClass = item.isCert ? 'cert-card' : (item.tag ? 'set-card' : '');
   return `
-  <div class="card ${item.type==='set'?'cert-card':''} ${item.tag?'set-card':''}">
+  <div class="card ${cardClass}">
     ${item.tag?'<span class="set-tag">'+ptag(item)+'</span>':''}
     ${makeArt(item.type)}
     <div class="card-body">
@@ -787,7 +788,6 @@ function renderCatalog(){
     document.getElementById("grid-"+cat).innerHTML = byCat[cat].map(buildCard).join("");
   });
 }
-renderCatalog();
 
 const sections = document.querySelectorAll("section.category");
 const navLinks = document.querySelectorAll("nav.cats a");
@@ -813,8 +813,6 @@ function refreshOrderPageTexts(){
   document.getElementById("inscriptionLabel").textContent =
     currentProduct.cat==="tortlar" ? s.inscription_label_cake : s.inscription_label_other;
 
-  const multiWrap = document.getElementById("weightSectionMulti");
-  const fixedWrap = document.getElementById("weightSectionFixed");
   if(currentProduct.variants.length>1){
     document.getElementById("weightOptions").innerHTML = currentProduct.variants.map((v,i)=>`
       <div class="weight-pill ${i===currentVariantIndex?'active':''}" onclick="selectVariant(${i})">
@@ -847,7 +845,10 @@ function openOrderPage(id){
 
   const dateInput = document.getElementById("dateInput");
   const today = new Date();
-  dateInput.min = today.toISOString().split("T")[0];
+  const y = today.getFullYear();
+  const m = String(today.getMonth()+1).padStart(2,'0');
+  const d = String(today.getDate()).padStart(2,'0');
+  dateInput.min = `${y}-${m}-${d}`;
   dateInput.value = "";
   document.getElementById("timeInput").value = "";
 
@@ -883,16 +884,22 @@ function selectDelivery(mode){
   document.getElementById("addressWrap").style.display = mode==="delivery" ? "block" : "none";
 
   const cashPill = document.getElementById("paymentPillCash");
+  const kaspiPill = document.getElementById("paymentPillKaspi");
   const paymentHint = document.getElementById("paymentHint");
   if(mode==="delivery"){
     cashPill.classList.add("pill-disabled");
     cashPill.classList.remove("active");
     currentPayment = "kaspi";
-    document.getElementById("paymentPillKaspi").classList.add("active");
+    kaspiPill.classList.add("active");
     paymentHint.style.display = "block";
   } else {
     cashPill.classList.remove("pill-disabled");
     paymentHint.style.display = "none";
+    // Егер пайдаланушы бұрын "delivery" таңдамаған болса, төлемді тазалаймыз
+    if(!currentPayment){
+      kaspiPill.classList.remove("active");
+      cashPill.classList.remove("active");
+    }
   }
 }
 
@@ -963,6 +970,10 @@ function openWhatsapp(productLine){
   text += productLine ? s.wa_generic_product + productLine + s.wa_generic_city_suffix : s.wa_generic_no_product;
   window.open("https://wa.me/" + WHATSAPP_NUMBER + "?text=" + encodeURIComponent(text), "_blank");
 }
+
+// Бастапқы жүктелуде статикалық мәтіндерді қолдану
+applyStaticStrings(currentLang);
+renderCatalog();
 </script>
 </body>
 </html>
