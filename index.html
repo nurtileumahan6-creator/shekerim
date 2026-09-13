@@ -1,0 +1,626 @@
+<!DOCTYPE html>
+<html lang="kk">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Шекерім — Қарағандыдағы торттар мен десерттер</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400;9..144,500;9..144,600;9..144,700&family=Manrope:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --cream:#FBF3EA;
+    --paper:#FFFDFA;
+    --plum:#6E2A3A;
+    --plum-dark:#4E1C28;
+    --rose:#E7A8AE;
+    --rose-soft:#F3D9DC;
+    --gold:#B8862F;
+    --ink:#2A211E;
+    --ink-soft:#6B5E58;
+    --line:#E7DCCF;
+    --err:#B23A3A;
+  }
+  *{box-sizing:border-box;}
+  html{scroll-behavior:smooth;}
+  body{margin:0;background:var(--cream);color:var(--ink);font-family:'Manrope',sans-serif;line-height:1.55;}
+  h1,h2,h3,.display{font-family:'Fraunces',serif;font-weight:600;letter-spacing:-0.01em;color:var(--plum-dark);margin:0;}
+  a{color:inherit;text-decoration:none;}
+  img,svg{display:block;}
+  .wrap{max-width:1160px;margin:0 auto;padding:0 24px;}
+  button{font-family:inherit;}
+
+  header{position:sticky;top:0;z-index:40;background:rgba(251,243,234,0.94);backdrop-filter:blur(6px);border-bottom:1px solid var(--line);}
+  .header-row{display:flex;align-items:center;justify-content:space-between;padding:16px 24px;max-width:1160px;margin:0 auto;gap:20px;}
+  .logo{font-family:'Fraunces',serif;font-size:26px;font-weight:700;color:var(--plum-dark);display:flex;align-items:center;gap:10px;cursor:pointer;}
+  .logo-mark{width:34px;height:34px;flex-shrink:0;}
+  .header-actions{display:flex;align-items:center;gap:14px;}
+  .phone-line{display:flex;flex-direction:column;text-align:right;font-size:13px;color:var(--ink-soft);}
+  .phone-line strong{font-size:15px;color:var(--ink);font-weight:700;}
+  .btn{display:inline-flex;align-items:center;gap:8px;padding:11px 20px;border-radius:999px;font-weight:700;font-size:14.5px;border:1px solid transparent;cursor:pointer;transition:transform .15s ease, box-shadow .15s ease;}
+  .btn:hover{transform:translateY(-1px);}
+  .btn-primary{background:var(--plum);color:#fff;}
+  .btn-primary:hover{box-shadow:0 8px 18px rgba(110,42,58,0.28);}
+  .btn-ghost{background:transparent;border-color:var(--plum);color:var(--plum-dark);}
+  nav.cats{display:flex;gap:8px;overflow-x:auto;padding:12px 24px 16px;max-width:1160px;margin:0 auto;scrollbar-width:none;}
+  nav.cats::-webkit-scrollbar{display:none;}
+  nav.cats a{flex-shrink:0;padding:8px 16px;border-radius:999px;font-size:14px;font-weight:600;color:var(--ink-soft);border:1px solid var(--line);background:var(--paper);transition:all .15s ease;}
+  nav.cats a:hover, nav.cats a.active{background:var(--plum);color:#fff;border-color:var(--plum);}
+
+  .hero{padding:56px 24px 40px;max-width:1160px;margin:0 auto;}
+  .hero-inner{display:grid;grid-template-columns:1.1fr 0.9fr;gap:48px;align-items:center;}
+  .eyebrow{font-size:14.5px;color:var(--gold);font-weight:700;margin-bottom:14px;}
+  .hero h1{font-size:clamp(34px,4.4vw,54px);line-height:1.08;}
+  .hero p.lead{margin-top:18px;font-size:17px;color:var(--ink-soft);max-width:460px;}
+  .hero-ctas{display:flex;gap:12px;margin-top:28px;flex-wrap:wrap;}
+  .hero-note{margin-top:22px;font-size:13.5px;color:var(--ink-soft);display:flex;gap:8px;align-items:center;}
+  .hero-note svg{width:16px;height:16px;flex-shrink:0;color:var(--gold);}
+  .hero-art{position:relative;display:flex;justify-content:center;}
+  .hero-art svg{width:100%;max-width:360px;}
+
+  .info-strip{background:var(--plum-dark);color:#F3E3D9;padding:18px 24px;}
+  .info-strip .wrap{display:flex;gap:32px;flex-wrap:wrap;justify-content:space-between;font-size:14px;}
+  .info-strip .item{display:flex;align-items:center;gap:10px;}
+  .info-strip svg{width:18px;height:18px;flex-shrink:0;color:var(--rose);}
+
+  section.category{padding:56px 0 8px;}
+  .cat-head{display:flex;justify-content:space-between;align-items:baseline;margin-bottom:28px;gap:16px;flex-wrap:wrap;}
+  .cat-head h2{font-size:30px;}
+  .cat-head p{color:var(--ink-soft);font-size:14.5px;max-width:360px;}
+  .grid{display:grid;grid-template-columns:repeat(3,1fr);gap:22px;}
+  .card{background:var(--paper);border:1px solid var(--line);border-radius:18px;display:flex;flex-direction:column;overflow:hidden;}
+  .card-art{height:150px;display:flex;align-items:center;justify-content:center;position:relative;}
+  .card-art svg{width:72px;height:72px;}
+  .card-body{padding:18px 20px 20px;display:flex;flex-direction:column;gap:8px;flex:1;}
+  .card-top{display:flex;justify-content:space-between;align-items:baseline;gap:10px;}
+  .card-top h3{font-size:18px;font-weight:600;}
+  .weight{font-size:12.5px;color:var(--ink-soft);white-space:nowrap;}
+  .desc{font-size:13.5px;color:var(--ink-soft);flex:1;}
+  .card-foot{display:flex;justify-content:space-between;align-items:center;margin-top:6px;}
+  .price{font-family:'Fraunces',serif;font-weight:600;font-size:19px;color:var(--plum-dark);}
+  .price small{font-size:12px;font-weight:500;color:var(--ink-soft);font-family:'Manrope',sans-serif;}
+  .order-btn{display:inline-flex;align-items:center;gap:6px;background:var(--rose-soft);color:var(--plum-dark);border-radius:999px;padding:8px 14px;font-size:13px;font-weight:700;border:1px solid transparent;cursor:pointer;transition:.15s ease;}
+  .order-btn:hover{background:var(--plum);color:#fff;}
+  .order-btn svg{width:14px;height:14px;}
+  .cert-card .card-art{background:linear-gradient(135deg,var(--plum) 0%, var(--plum-dark) 100%);}
+  .cert-card .price{color:var(--plum);}
+  .set-card{border-color:var(--gold);}
+  .set-tag{position:absolute;top:12px;left:12px;background:var(--gold);color:#fff;font-size:11.5px;font-weight:700;padding:4px 10px;border-radius:999px;}
+
+  .cta-band{margin:70px auto 0;max-width:1160px;padding:0 24px;}
+  .cta-inner{background:var(--plum);color:#fff;border-radius:24px;padding:48px 40px;display:grid;grid-template-columns:1.3fr 0.7fr;gap:24px;align-items:center;}
+  .cta-inner h2{color:#fff;font-size:28px;}
+  .cta-inner p{color:#F0D9DC;margin-top:10px;font-size:15px;max-width:420px;}
+  .cta-inner .btn-primary{background:#fff;color:var(--plum-dark);}
+  .cta-actions{display:flex;justify-content:flex-end;}
+
+  footer{margin-top:70px;padding:44px 24px 30px;border-top:1px solid var(--line);}
+  .foot-grid{max-width:1160px;margin:0 auto;display:grid;grid-template-columns:1.4fr 1fr 1fr;gap:32px;}
+  .foot-grid h4{font-size:14px;color:var(--ink-soft);font-weight:700;margin-bottom:12px;}
+  .foot-grid p, .foot-grid a{font-size:14px;color:var(--ink);display:block;margin-bottom:8px;}
+  .foot-brand{font-family:'Fraunces',serif;font-size:22px;font-weight:700;color:var(--plum-dark);margin-bottom:10px;}
+  .foot-bottom{max-width:1160px;margin:36px auto 0;padding-top:20px;border-top:1px solid var(--line);font-size:12.5px;color:var(--ink-soft);display:flex;justify-content:space-between;flex-wrap:wrap;gap:8px;}
+
+  .float-wa{position:fixed;bottom:22px;right:22px;z-index:50;background:#25D366;color:#fff;border-radius:999px;width:58px;height:58px;display:flex;align-items:center;justify-content:center;box-shadow:0 10px 24px rgba(0,0,0,0.22);transition:transform .15s ease;}
+  .float-wa:hover{transform:scale(1.06);}
+  .float-wa svg{width:28px;height:28px;}
+
+  #orderView{display:none;min-height:100vh;}
+  .order-header{position:sticky;top:0;z-index:40;background:rgba(251,243,234,0.96);backdrop-filter:blur(6px);border-bottom:1px solid var(--line);padding:16px 24px;}
+  .order-header .wrap{display:flex;align-items:center;gap:14px;padding:0;max-width:1160px;}
+  .back-btn{display:flex;align-items:center;gap:8px;font-weight:700;font-size:14.5px;color:var(--plum-dark);cursor:pointer;background:none;border:none;padding:8px 6px;}
+  .back-btn svg{width:18px;height:18px;}
+  .order-header h2{font-size:18px;}
+  .order-wrap{max-width:760px;margin:0 auto;padding:36px 24px 140px;}
+  .order-product{display:flex;gap:18px;align-items:center;background:var(--paper);border:1px solid var(--line);border-radius:18px;padding:16px;margin-bottom:30px;}
+  .order-product .art-mini{width:76px;height:76px;border-radius:14px;display:flex;align-items:center;justify-content:center;flex-shrink:0;}
+  .order-product .art-mini svg{width:42px;height:42px;}
+  .order-product .cat-label{font-size:12.5px;color:var(--ink-soft);text-transform:none;margin-bottom:2px;}
+  .order-product h3{font-size:19px;}
+  .order-section{margin-bottom:30px;}
+  .order-section > label.section-title{display:block;font-weight:700;font-size:15px;margin-bottom:12px;color:var(--plum-dark);}
+  .hint{font-size:12.5px;color:var(--ink-soft);margin-top:-6px;margin-bottom:12px;}
+  .weight-options{display:flex;gap:10px;flex-wrap:wrap;}
+  .weight-pill{border:1.5px solid var(--line);background:var(--paper);border-radius:14px;padding:12px 16px;cursor:pointer;min-width:110px;text-align:center;transition:.15s ease;}
+  .weight-pill .w{font-weight:700;font-size:14.5px;}
+  .weight-pill .p{font-size:13px;color:var(--ink-soft);margin-top:3px;}
+  .weight-pill.active{border-color:var(--plum);background:var(--rose-soft);}
+  .weight-pill.active .p{color:var(--plum-dark);}
+  .fixed-weight-row{display:flex;justify-content:space-between;align-items:center;background:var(--paper);border:1px solid var(--line);border-radius:14px;padding:14px 16px;font-size:14.5px;}
+  .fixed-weight-row strong{color:var(--plum-dark);}
+  textarea, input[type=text], input[type=date], input[type=time]{
+    width:100%;padding:13px 14px;border-radius:12px;border:1.5px solid var(--line);
+    font-family:'Manrope',sans-serif;font-size:14.5px;color:var(--ink);background:var(--paper);
+  }
+  textarea{resize:vertical;min-height:80px;}
+  textarea:focus, input:focus{outline:none;border-color:var(--plum);}
+  .row2{display:grid;grid-template-columns:1fr 1fr;gap:14px;}
+  .delivery-options{display:flex;gap:10px;}
+  .delivery-pill{flex:1;border:1.5px solid var(--line);background:var(--paper);border-radius:14px;padding:14px 16px;cursor:pointer;text-align:center;font-weight:700;font-size:14.5px;color:var(--ink-soft);transition:.15s ease;display:flex;align-items:center;justify-content:center;gap:8px;}
+  .delivery-pill svg{width:18px;height:18px;}
+  .delivery-pill.active{border-color:var(--plum);background:var(--rose-soft);color:var(--plum-dark);}
+  #addressWrap{margin-top:14px;display:none;}
+  .field-label{display:block;font-size:13.5px;font-weight:600;color:var(--ink-soft);margin-bottom:7px;}
+  .error-text{color:var(--err);font-size:13px;margin-top:10px;display:none;}
+  .order-bar{position:fixed;left:0;right:0;bottom:0;background:var(--paper);border-top:1px solid var(--line);padding:16px 24px;z-index:45;}
+  .order-bar-inner{max-width:760px;margin:0 auto;display:flex;justify-content:space-between;align-items:center;gap:16px;flex-wrap:wrap;}
+  .order-total{display:flex;flex-direction:column;}
+  .order-total span{font-size:12.5px;color:var(--ink-soft);}
+  .order-total strong{font-family:'Fraunces',serif;font-size:24px;color:var(--plum-dark);}
+  .final-order-btn{padding:14px 26px;font-size:15.5px;}
+
+  @media (max-width:860px){
+    .hero-inner{grid-template-columns:1fr;}
+    .hero-art{order:-1;}
+    .hero-art svg{max-width:220px;}
+    .grid{grid-template-columns:repeat(2,1fr);}
+    .cta-inner{grid-template-columns:1fr;text-align:left;}
+    .cta-actions{justify-content:flex-start;}
+    .foot-grid{grid-template-columns:1fr;}
+    .phone-line{display:none;}
+    .row2{grid-template-columns:1fr;}
+  }
+  @media (max-width:540px){
+    .grid{grid-template-columns:1fr;}
+    .header-row{padding:14px 18px;}
+    .hero{padding:40px 18px 28px;}
+    .wrap{padding:0 18px;}
+    .order-wrap{padding:26px 18px 150px;}
+  }
+  @media (prefers-reduced-motion: reduce){*{transition:none !important;}}
+</style>
+</head>
+<body>
+
+<div id="catalogView">
+<header>
+  <div class="header-row">
+    <div class="logo" onclick="window.scrollTo({top:0,behavior:'smooth'})">
+      <svg class="logo-mark" viewBox="0 0 40 40" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <circle cx="20" cy="20" r="19" fill="#6E2A3A"/>
+        <path d="M11 24c0-1.6 1.3-2.9 2.9-2.9h12.2c1.6 0 2.9 1.3 2.9 2.9v2.6c0 1.2-1 2.2-2.2 2.2H13.2c-1.2 0-2.2-1-2.2-2.2V24z" fill="#F3D9DC"/>
+        <path d="M13 21l1.2-4.4a1 1 0 0 1 1.9 0l0.9 3" stroke="#F3D9DC" stroke-width="1.4" stroke-linecap="round"/>
+        <circle cx="20" cy="14.5" r="1.6" fill="#B8862F"/>
+      </svg>
+      Шекерім
+    </div>
+    <div class="header-actions">
+      <div class="phone-line">
+        <span>WhatsApp тапсырыс</span>
+        <strong>8 705 843 74 72</strong>
+      </div>
+      <a class="btn btn-primary" href="#" onclick="openWhatsapp(''); return false;">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path d="M12.04 2C6.58 2 2.13 6.45 2.13 11.91c0 1.87.51 3.62 1.4 5.12L2 22l5.15-1.5a9.8 9.8 0 0 0 4.89 1.31h.01c5.46 0 9.91-4.45 9.91-9.91C21.96 6.45 17.51 2 12.04 2zm5.8 14.05c-.24.68-1.4 1.32-1.93 1.4-.5.08-1.12.11-1.8-.11-.42-.13-.96-.31-1.65-.6-2.9-1.25-4.79-4.16-4.94-4.36-.14-.2-1.18-1.57-1.18-3 0-1.42.75-2.12 1.02-2.4.26-.28.57-.35.76-.35h.55c.18 0 .42-.07.65.5.24.6.82 2.02.89 2.17.07.15.12.32.02.51-.1.19-.15.31-.3.48-.15.17-.31.38-.44.51-.15.15-.3.32-.13.62.17.3.77 1.28 1.65 2.07 1.14 1.02 2.1 1.34 2.4 1.49.3.15.48.13.66-.05.18-.18.76-.87.96-1.17.2-.3.4-.25.66-.15.27.1 1.7.8 1.99.95.3.15.5.22.57.35.08.13.08.75-.16 1.44z"/></svg>
+        Тапсырыс беру
+      </a>
+    </div>
+  </div>
+  <nav class="cats" id="catNav">
+    <a href="#tortlar">Торттар</a>
+    <a href="#desertter">Десерттер</a>
+    <a href="#kapkeikter">Капкейктер мен тартталеткалар</a>
+    <a href="#makarons">Макаронс пен безе</a>
+    <a href="#setter">Сеттер мен сертификаттар</a>
+  </nav>
+</header>
+
+<section class="hero">
+  <div class="hero-inner">
+    <div>
+      <div class="eyebrow">Қарағанды · WhatsApp арқылы тапсырыс</div>
+      <h1>Тәтті сәттерге<br>арналған торттар мен десерттер</h1>
+      <p class="lead">Торттың салмағын өзіңіз таңдайсыз, тортқа жазу қалдырасыз, керек күні мен уақытын, жеткізу тәсілін белгілейсіз — содан кейін тапсырыс бір батырмамен WhatsApp-қа жіберіледі.</p>
+      <div class="hero-ctas">
+        <a class="btn btn-primary" href="#tortlar">Мәзірді көру</a>
+        <a class="btn btn-ghost" href="#" onclick="openWhatsapp(''); return false;">WhatsApp-қа жазу</a>
+      </div>
+      <div class="hero-note">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 21s-7-4.5-9-9a5 5 0 0 1 9-4 5 5 0 0 1 9 4c-2 4.5-9 9-9 9z"/></svg>
+        Қарағанды қаласы бойынша дайын, тапсырыс алдын ала қабылданады
+      </div>
+    </div>
+    <div class="hero-art">
+      <svg viewBox="0 0 300 300" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <ellipse cx="150" cy="255" rx="105" ry="14" fill="#E7DCCF"/>
+        <rect x="65" y="160" width="170" height="80" rx="10" fill="#B8862F"/>
+        <rect x="65" y="160" width="170" height="18" rx="9" fill="#D8AE5C"/>
+        <rect x="80" y="95" width="140" height="75" rx="10" fill="#6E2A3A"/>
+        <rect x="80" y="95" width="140" height="16" rx="8" fill="#8A3B4C"/>
+        <rect x="95" y="45" width="110" height="60" rx="10" fill="#E7A8AE"/>
+        <rect x="95" y="45" width="110" height="14" rx="7" fill="#F3D9DC"/>
+        <path d="M105 45c0-18 12-16 12-30M150 45c0-20 14-18 14-32M195 45c0-18 12-16 12-30" stroke="#F3D9DC" stroke-width="6" stroke-linecap="round" fill="none"/>
+        <circle cx="150" cy="18" r="7" fill="#F3D9DC"/>
+      </svg>
+    </div>
+  </div>
+</section>
+
+<div class="info-strip">
+  <div class="wrap">
+    <div class="item"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 12h18M3 6h18M3 18h18"/></svg>Тапсырыс тек WhatsApp арқылы қабылданады</div>
+    <div class="item"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 3"/></svg>Күн сайын 09:00–20:00</div>
+    <div class="item"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 21s-7-4.5-9-9a5 5 0 0 1 9-4 5 5 0 0 1 9 4c-2 4.5-9 9-9 9z"/></svg>Қарағанды — алып кету және жеткізу</div>
+  </div>
+</div>
+
+<main class="wrap">
+  <section class="category" id="tortlar">
+    <div class="cat-head">
+      <h2>Торттар</h2>
+      <p>Салмағын өзіңіз таңдайсыз: 0.5 кг, 1 кг немесе 1.5 кг. Ойылған дизайн мен жазу қосу мүмкіндігі бар.</p>
+    </div>
+    <div class="grid" id="grid-tortlar"></div>
+  </section>
+
+  <section class="category" id="desertter">
+    <div class="cat-head"><h2>Десерттер</h2><p>Жеке порциялы десерттер — сый ретінде де, өзіңізге сыйлық ретінде де.</p></div>
+    <div class="grid" id="grid-desertter"></div>
+  </section>
+
+  <section class="category" id="kapkeikter">
+    <div class="cat-head"><h2>Капкейктер мен тартталеткалар</h2><p>Шайға қосымша, кеңседегі жиналысқа немесе балалар мерекесіне ыңғайлы.</p></div>
+    <div class="grid" id="grid-kapkeikter"></div>
+  </section>
+
+  <section class="category" id="makarons">
+    <div class="cat-head"><h2>Макаронс пен безе</h2><p>Түрлі-түсті, әр қатырмасы бөлек дайындалатын нәзік тәттілер.</p></div>
+    <div class="grid" id="grid-makarons"></div>
+  </section>
+
+  <section class="category" id="setter">
+    <div class="cat-head"><h2>Сеттер мен сертификаттар</h2><p>Мерекеге дайын жинақтар және кез келген сомадағы сый сертификаттары.</p></div>
+    <div class="grid" id="grid-setter"></div>
+  </section>
+</main>
+
+<div class="cta-band">
+  <div class="cta-inner">
+    <div>
+      <h2>Тапсырысыңызды дайын<br>күйде WhatsApp-қа жіберіңіз</h2>
+      <p>Өнімді таңдап, "Тапсырыс беру" батырмасын басыңыз — салмағын, күні мен уақытын, жеткізу тәсілін белгілеп, дайын хабарлама WhatsApp-та ашылады.</p>
+    </div>
+    <div class="cta-actions">
+      <a class="btn btn-primary" href="#tortlar">Мәзірді көру</a>
+    </div>
+  </div>
+</div>
+
+<footer>
+  <div class="foot-grid">
+    <div>
+      <div class="foot-brand">Шекерім</div>
+      <p>Қарағанды қаласындағы торттар мен десерттер шеберханасы. Тапсырыстар WhatsApp арқылы қабылданады, дайындау мерзімі позицияға байланысты алдын ала келісіледі.</p>
+    </div>
+    <div>
+      <h4>Байланыс</h4>
+      <a href="#" onclick="openWhatsapp(''); return false;">WhatsApp: 8 705 843 74 72</a>
+      <p>Қарағанды қаласы</p>
+      <p>Күн сайын 09:00–20:00</p>
+    </div>
+    <div>
+      <h4>Санаттар</h4>
+      <a href="#tortlar">Торттар</a>
+      <a href="#desertter">Десерттер</a>
+      <a href="#kapkeikter">Капкейктер мен тартталеткалар</a>
+      <a href="#setter">Сеттер мен сертификаттар</a>
+    </div>
+  </div>
+  <div class="foot-bottom">
+    <span>Шекерім — демо сайт, Қарағанды</span>
+    <span>Барлық тапсырыстар WhatsApp арқылы расталады</span>
+  </div>
+</footer>
+
+<a class="float-wa" href="#" onclick="openWhatsapp(''); return false;" aria-label="WhatsApp арқылы жазу">
+  <svg viewBox="0 0 24 24" fill="currentColor"><path d="M12.04 2C6.58 2 2.13 6.45 2.13 11.91c0 1.87.51 3.62 1.4 5.12L2 22l5.15-1.5a9.8 9.8 0 0 0 4.89 1.31h.01c5.46 0 9.91-4.45 9.91-9.91C21.96 6.45 17.51 2 12.04 2zm5.8 14.05c-.24.68-1.4 1.32-1.93 1.4-.5.08-1.12.11-1.8-.11-.42-.13-.96-.31-1.65-.6-2.9-1.25-4.79-4.16-4.94-4.36-.14-.2-1.18-1.57-1.18-3 0-1.42.75-2.12 1.02-2.4.26-.28.57-.35.76-.35h.55c.18 0 .42-.07.65.5.24.6.82 2.02.89 2.17.07.15.12.32.02.51-.1.19-.15.31-.3.48-.15.17-.31.38-.44.51-.15.15-.3.32-.13.62.17.3.77 1.28 1.65 2.07 1.14 1.02 2.1 1.34 2.4 1.49.3.15.48.13.66-.05.18-.18.76-.87.96-1.17.2-.3.4-.25.66-.15.27.1 1.7.8 1.99.95.3.15.5.22.57.35.08.13.08.75-.16 1.44z"/></svg>
+</a>
+</div>
+
+<div id="orderView">
+  <div class="order-header">
+    <div class="wrap">
+      <button class="back-btn" onclick="closeOrderPage()">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M15 18l-6-6 6-6"/></svg>
+        Мәзірге қайту
+      </button>
+      <h2>Тапсырысты рәсімдеу</h2>
+    </div>
+  </div>
+
+  <div class="order-wrap">
+    <div class="order-product">
+      <div class="art-mini" id="opArt"></div>
+      <div>
+        <div class="cat-label" id="opCatLabel"></div>
+        <h3 id="opName"></h3>
+      </div>
+    </div>
+
+    <div class="order-section" id="weightSectionMulti" style="display:none;">
+      <label class="section-title">Салмағын таңдаңыз</label>
+      <div class="weight-options" id="weightOptions"></div>
+    </div>
+
+    <div class="order-section" id="weightSectionFixed" style="display:none;">
+      <label class="section-title">Салмағы мен бағасы</label>
+      <div class="fixed-weight-row"><span id="fixedWeightText"></span><strong id="fixedPriceText"></strong></div>
+    </div>
+
+    <div class="order-section">
+      <label class="section-title" id="inscriptionLabel">Тортқа жазылатын жазу</label>
+      <div class="hint">Қаласаңыз, тортқа жазылатын мәтінді осы жерге жазыңыз (міндетті емес)</div>
+      <textarea id="inscriptionInput" placeholder="Мысалы: Туған күнің құтты болсын, Айгерім!"></textarea>
+    </div>
+
+    <div class="order-section">
+      <label class="section-title">Қай күнге және сағатқа керек</label>
+      <div class="row2">
+        <div>
+          <span class="field-label">Күні</span>
+          <input type="date" id="dateInput">
+        </div>
+        <div>
+          <span class="field-label">Уақыты</span>
+          <input type="time" id="timeInput">
+        </div>
+      </div>
+    </div>
+
+    <div class="order-section">
+      <label class="section-title">Жеткізу тәсілі</label>
+      <div class="delivery-options">
+        <div class="delivery-pill" id="deliveryPillDelivery" onclick="selectDelivery('delivery')">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="1" y="7" width="15" height="10" rx="1"/><path d="M16 10h3l3 3v4h-6z"/><circle cx="6" cy="19" r="1.6"/><circle cx="17.5" cy="19" r="1.6"/></svg>
+          Жеткізу
+        </div>
+        <div class="delivery-pill" id="deliveryPillPickup" onclick="selectDelivery('pickup')">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 21s-7-4.5-9-9a5 5 0 0 1 9-4 5 5 0 0 1 9 4c-2 4.5-9 9-9 9z"/></svg>
+          Өзім алып кетемін
+        </div>
+      </div>
+      <div id="addressWrap">
+        <span class="field-label">Мекен-жайы</span>
+        <input type="text" id="addressInput" placeholder="Көше, үй, пәтер, кіреберіс">
+      </div>
+    </div>
+
+    <div class="order-section">
+      <label class="section-title">Аты-жөніңіз</label>
+      <div class="hint">Міндетті емес, бірақ тапсырысты танып алуға көмектеседі</div>
+      <input type="text" id="nameInput" placeholder="Атыңыз">
+    </div>
+
+    <div class="error-text" id="errorText"></div>
+  </div>
+
+  <div class="order-bar">
+    <div class="order-bar-inner">
+      <div class="order-total">
+        <span>Жалпы сомасы</span>
+        <strong id="orderTotalPrice">0 ₸</strong>
+      </div>
+      <button class="btn btn-primary final-order-btn" onclick="submitOrder()">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path d="M12.04 2C6.58 2 2.13 6.45 2.13 11.91c0 1.87.51 3.62 1.4 5.12L2 22l5.15-1.5a9.8 9.8 0 0 0 4.89 1.31h.01c5.46 0 9.91-4.45 9.91-9.91C21.96 6.45 17.51 2 12.04 2zm5.8 14.05c-.24.68-1.4 1.32-1.93 1.4-.5.08-1.12.11-1.8-.11-.42-.13-.96-.31-1.65-.6-2.9-1.25-4.79-4.16-4.94-4.36-.14-.2-1.18-1.57-1.18-3 0-1.42.75-2.12 1.02-2.4.26-.28.57-.35.76-.35h.55c.18 0 .42-.07.65.5.24.6.82 2.02.89 2.17.07.15.12.32.02.51-.1.19-.15.31-.3.48-.15.17-.31.38-.44.51-.15.15-.3.32-.13.62.17.3.77 1.28 1.65 2.07 1.14 1.02 2.1 1.34 2.4 1.49.3.15.48.13.66-.05.18-.18.76-.87.96-1.17.2-.3.4-.25.66-.15.27.1 1.7.8 1.99.95.3.15.5.22.57.35.08.13.08.75-.16 1.44z"/></svg>
+        Тапсырыс беру
+      </button>
+    </div>
+  </div>
+</div>
+
+<script>
+const WHATSAPP_NUMBER = "77058437472";
+
+const catLabels = {
+  cake:"Торттар", dessert:"Десерттер", cupcake:"Капкейктер мен тартталеткалар",
+  macaron:"Макаронс пен безе", set:"Сеттер мен сертификаттар"
+};
+const artPalettes = {
+  cake:{bg:"#F3D9DC", fg:"#6E2A3A"}, dessert:{bg:"#F6E6D8", fg:"#B8862F"},
+  cupcake:{bg:"#EFE1EE", fg:"#6E2A3A"}, macaron:{bg:"#E7DCCF", fg:"#8A3B4C"},
+  set:{bg:"#6E2A3A", fg:"#F3D9DC"}
+};
+const icons = {
+  cake:'<svg viewBox="0 0 64 64" fill="none" xmlns="http://www.w3.org/2000/svg"><rect x="8" y="34" width="48" height="20" rx="4" fill="currentColor"/><rect x="8" y="34" width="48" height="6" rx="3" fill="white" opacity="0.35"/><rect x="14" y="18" width="36" height="18" rx="4" fill="currentColor" opacity="0.75"/><path d="M20 18c0-5 3-4 3-9M32 18c0-6 4-5 4-10M44 18c0-5 3-4 3-9" stroke="currentColor" stroke-width="3" stroke-linecap="round"/></svg>',
+  dessert:'<svg viewBox="0 0 64 64" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M14 28c0-10 8-18 18-18s18 8 18 18" stroke="currentColor" stroke-width="4" stroke-linecap="round"/><rect x="12" y="28" width="40" height="8" rx="4" fill="currentColor"/><path d="M18 36l4 18h20l4-18" stroke="currentColor" stroke-width="4" stroke-linejoin="round" fill="none"/></svg>',
+  cupcake:'<svg viewBox="0 0 64 64" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M16 28h32l-4 26a4 4 0 0 1-4 3.5H24a4 4 0 0 1-4-3.5L16 28z" fill="currentColor" opacity="0.8"/><path d="M18 28c-3-3-4-8 0-11 2-2 5-2 6 0 1-4 5-6 9-4 3 1 4 4 3 7 4-1 8 1 8 5 0 1 0 2-1 3H18z" fill="currentColor"/></svg>',
+  macaron:'<svg viewBox="0 0 64 64" fill="none" xmlns="http://www.w3.org/2000/svg"><ellipse cx="32" cy="20" rx="20" ry="9" fill="currentColor"/><rect x="14" y="27" width="36" height="8" rx="4" fill="currentColor" opacity="0.6"/><ellipse cx="32" cy="44" rx="20" ry="9" fill="currentColor"/></svg>',
+  set:'<svg viewBox="0 0 64 64" fill="none" xmlns="http://www.w3.org/2000/svg"><rect x="10" y="24" width="44" height="30" rx="3" fill="currentColor" opacity="0.9"/><rect x="10" y="24" width="44" height="8" fill="currentColor"/><rect x="28" y="12" width="8" height="42" fill="currentColor" opacity="0.5"/><path d="M32 24c-6-2-10-8-6-12 3-3 8 0 6 6M32 24c6-2 10-8 6-12-3-3-8 0-6 6" stroke="currentColor" stroke-width="2" fill="none"/></svg>'
+};
+function orderIcon(){return '<svg viewBox="0 0 24 24" fill="currentColor"><path d="M12.04 2C6.58 2 2.13 6.45 2.13 11.91c0 1.87.51 3.62 1.4 5.12L2 22l5.15-1.5a9.8 9.8 0 0 0 4.89 1.31h.01c5.46 0 9.91-4.45 9.91-9.91C21.96 6.45 17.51 2 12.04 2z"/></svg>';}
+function makeArt(type){const p=artPalettes[type];return '<div class="card-art" style="background:'+p.bg+';color:'+p.fg+'">'+icons[type]+'</div>';}
+function money(n){return n.toLocaleString('ru-RU')+" ₸";}
+
+const PRODUCTS = [
+  {id:"tort-medovik", cat:"tortlar", type:"cake", name:"Медовик тортысы", desc:"Жұқа бал қабатты қамыр, нәзік қаймақ кремі.", variants:[{weight:"0.5 кг",price:4200},{weight:"1 кг",price:7200},{weight:"1.5 кг",price:10200}]},
+  {id:"tort-redvelvet", cat:"tortlar", type:"cake", name:"Қызыл барқыт тортысы", desc:"Дымқыл қызыл бисквит, кремсыр негізіндегі крем.", variants:[{weight:"0.5 кг",price:4700},{weight:"1 кг",price:8200},{weight:"1.5 кг",price:11700}]},
+  {id:"tort-chocobanan", cat:"tortlar", type:"cake", name:"Шоколад-банан тортысы", desc:"Шоколад қабаттары мен банан кремі.", variants:[{weight:"0.5 кг",price:4400},{weight:"1 кг",price:7500},{weight:"1.5 кг",price:10600}]},
+  {id:"tort-napoleon", cat:"tortlar", type:"cake", name:"Наполеон тортысы", desc:"Қытырлақ қабатты қамыр, сүтті заварной крем.", variants:[{weight:"0.5 кг",price:4300},{weight:"1 кг",price:7300},{weight:"1.5 кг",price:10300}]},
+  {id:"tort-cheesecake", cat:"tortlar", type:"cake", name:"Чизкейк Нью-Йорк", desc:"Классикалық крем-сыр негізіндегі тығыз чизкейк.", variants:[{weight:"0.5 кг",price:5100},{weight:"1 кг",price:8900},{weight:"1.5 кг",price:12600}]},
+  {id:"tort-carrot", cat:"tortlar", type:"cake", name:"Сәбізді торт", desc:"Дәмдеуіштермен піскен сәбізді бисквит, крем-сыр.", variants:[{weight:"0.5 кг",price:4600},{weight:"1 кг",price:7900},{weight:"1.5 кг",price:11200}]},
+
+  {id:"des-tiramisu", cat:"desertter", type:"dessert", name:"Тирамису", desc:"Кофеге малынған савоярди, маскарпоне кремі.", variants:[{weight:"190 г",price:1690}]},
+  {id:"des-pavlova", cat:"desertter", type:"dessert", name:"Павлова құрттама-жидекпен", desc:"Қытырлақ безе, кремі және маусымдық жидек.", variants:[{weight:"140 г",price:1090}]},
+  {id:"des-lemontart", cat:"desertter", type:"dessert", name:"Лимон чиз-тарты", desc:"Қышқыл-тәтті лимон кремі, қытырлақ негіз.", variants:[{weight:"100 г",price:1190}]},
+  {id:"des-fondant", cat:"desertter", type:"dessert", name:"Шоколад фонданы", desc:"Ішінде сұйық шоколады бар жылы десерт.", variants:[{weight:"120 г",price:1290}]},
+
+  {id:"cup-vanilla", cat:"kapkeikter", type:"cupcake", name:"Ваниль капкейк", desc:"Жұмсақ ваниль бисквит, сливки кремі.", variants:[{weight:"80 г",price:890}]},
+  {id:"cup-redvelvet", cat:"kapkeikter", type:"cupcake", name:"Қызыл барқыт капкейк", desc:"Қызыл бисквит, крем-сыр топпинг.", variants:[{weight:"80 г",price:990}]},
+  {id:"cup-caramel", cat:"kapkeikter", type:"cupcake", name:"Карамель-жаңғақ тартталеткасы", desc:"Қытырлақ негіз, тұтқыр карамель, жаңғақ.", variants:[{weight:"90 г",price:1190}]},
+  {id:"cup-strawberry", cat:"kapkeikter", type:"cupcake", name:"Құлпынай-чиз тартталеткасы", desc:"Нәзік чизкейк, свежий құлпынай.", variants:[{weight:"100 г",price:1290}]},
+
+  {id:"mac-set6", cat:"makarons", type:"macaron", name:"Макаронс жиынтығы (6 дана)", desc:"Түрлі дәмдегі 6 макаронстан тұратын жиынтық.", variants:[{weight:"180 г",price:3600}]},
+  {id:"mac-meringue", cat:"makarons", type:"macaron", name:"Безе себет тәттісі", desc:"Жеке қытырлақ безе, жеңіл әрі әуе секілді.", variants:[{weight:"60 г",price:690}]},
+
+  {id:"set-mereke", cat:"setter", type:"set", name:'"Мереке" сеті', desc:"Торт кесегі, десерт және макаронстан тұратын жинақ.", variants:[{weight:"2 адамға",price:6900}], tag:"Танымал"},
+  {id:"cert-10000", cat:"setter", type:"set", name:"Сый сертификаты — 10 000 ₸", desc:"Кез келген позицияға қолданылады, мерзімі шектелмеген.", variants:[{weight:"—",price:10000}]},
+  {id:"cert-20000", cat:"setter", type:"set", name:"Сый сертификаты — 20 000 ₸", desc:"Кез келген позицияға қолданылады, мерзімі шектелмеген.", variants:[{weight:"—",price:20000}]}
+];
+
+function priceLabel(item){
+  if(item.variants.length>1){ return money(item.variants[0].price)+' <small>бастап</small>'; }
+  return money(item.variants[0].price);
+}
+
+function buildCard(item){
+  return `
+  <div class="card ${item.type==='set'?'cert-card':''} ${item.tag?'set-card':''}">
+    ${item.tag?'<span class="set-tag">'+item.tag+'</span>':''}
+    ${makeArt(item.type)}
+    <div class="card-body">
+      <div class="card-top">
+        <h3>${item.name}</h3>
+        ${item.variants.length===1 && item.variants[0].weight!=='—' ? '<span class="weight">'+item.variants[0].weight+'</span>' : ''}
+      </div>
+      <p class="desc">${item.desc}</p>
+      <div class="card-foot">
+        <span class="price">${priceLabel(item)}</span>
+        <button class="order-btn" onclick="openOrderPage('${item.id}')">${orderIcon()} Тапсырыс беру</button>
+      </div>
+    </div>
+  </div>`;
+}
+
+const byCat = {tortlar:[],desertter:[],kapkeikter:[],makarons:[],setter:[]};
+PRODUCTS.forEach(p=>byCat[p.cat].push(p));
+Object.keys(byCat).forEach(cat=>{
+  document.getElementById("grid-"+cat).innerHTML = byCat[cat].map(buildCard).join("");
+});
+
+const sections = document.querySelectorAll("section.category");
+const navLinks = document.querySelectorAll("nav.cats a");
+window.addEventListener("scroll", ()=>{
+  let current = "";
+  sections.forEach(sec=>{ if(sec.getBoundingClientRect().top <= 140) current = sec.id; });
+  navLinks.forEach(link=>link.classList.toggle("active", link.getAttribute("href")==="#"+current));
+}, {passive:true});
+
+let currentProduct = null;
+let currentVariantIndex = 0;
+let currentDelivery = null;
+
+function openOrderPage(id){
+  currentProduct = PRODUCTS.find(p=>p.id===id);
+  if(!currentProduct) return;
+  currentVariantIndex = 0;
+  currentDelivery = null;
+
+  document.getElementById("catalogView").style.display = "none";
+  document.getElementById("orderView").style.display = "block";
+  window.scrollTo({top:0});
+
+  const pal = artPalettes[currentProduct.type];
+  document.getElementById("opArt").innerHTML = icons[currentProduct.type];
+  document.getElementById("opArt").style.background = pal.bg;
+  document.getElementById("opArt").style.color = pal.fg;
+  document.getElementById("opCatLabel").textContent = catLabels[currentProduct.type] || "";
+  document.getElementById("opName").textContent = currentProduct.name;
+
+  document.getElementById("inscriptionLabel").textContent =
+    currentProduct.cat==="tortlar" ? "Тортқа жазылатын жазу" : "Тілек-хабарлама (қаласаңыз)";
+  document.getElementById("inscriptionInput").value = "";
+  document.getElementById("nameInput").value = "";
+  document.getElementById("addressInput").value = "";
+  document.getElementById("errorText").style.display = "none";
+
+  const dateInput = document.getElementById("dateInput");
+  const today = new Date();
+  dateInput.min = today.toISOString().split("T")[0];
+  dateInput.value = "";
+  document.getElementById("timeInput").value = "";
+
+  document.getElementById("deliveryPillDelivery").classList.remove("active");
+  document.getElementById("deliveryPillPickup").classList.remove("active");
+  document.getElementById("addressWrap").style.display = "none";
+
+  const multiWrap = document.getElementById("weightSectionMulti");
+  const fixedWrap = document.getElementById("weightSectionFixed");
+  if(currentProduct.variants.length>1){
+    multiWrap.style.display = "block";
+    fixedWrap.style.display = "none";
+    document.getElementById("weightOptions").innerHTML = currentProduct.variants.map((v,i)=>`
+      <div class="weight-pill ${i===0?'active':''}" onclick="selectVariant(${i})">
+        <div class="w">${v.weight}</div>
+        <div class="p">${money(v.price)}</div>
+      </div>`).join("");
+  } else {
+    multiWrap.style.display = "none";
+    fixedWrap.style.display = "block";
+    const v = currentProduct.variants[0];
+    document.getElementById("fixedWeightText").textContent = v.weight==="—" ? "Сертификат" : "Салмағы: "+v.weight;
+    document.getElementById("fixedPriceText").textContent = money(v.price);
+  }
+  updateTotal();
+}
+
+function selectVariant(i){
+  currentVariantIndex = i;
+  document.querySelectorAll(".weight-pill").forEach((el,idx)=>el.classList.toggle("active", idx===i));
+  updateTotal();
+}
+
+function selectDelivery(mode){
+  currentDelivery = mode;
+  document.getElementById("deliveryPillDelivery").classList.toggle("active", mode==="delivery");
+  document.getElementById("deliveryPillPickup").classList.toggle("active", mode==="pickup");
+  document.getElementById("addressWrap").style.display = mode==="delivery" ? "block" : "none";
+}
+
+function updateTotal(){
+  const v = currentProduct.variants[currentVariantIndex];
+  document.getElementById("orderTotalPrice").textContent = money(v.price);
+}
+
+function closeOrderPage(){
+  document.getElementById("orderView").style.display = "none";
+  document.getElementById("catalogView").style.display = "block";
+  window.scrollTo({top:0});
+}
+
+function showError(msg){
+  const el = document.getElementById("errorText");
+  el.textContent = msg;
+  el.style.display = "block";
+  el.scrollIntoView({behavior:"smooth", block:"center"});
+}
+
+function submitOrder(){
+  const date = document.getElementById("dateInput").value;
+  const time = document.getElementById("timeInput").value;
+  const address = document.getElementById("addressInput").value.trim();
+
+  if(!date){ showError("Қай күнге керек екенін таңдаңыз."); return; }
+  if(!time){ showError("Қажетті уақытты таңдаңыз."); return; }
+  if(!currentDelivery){ showError("Жеткізу тәсілін таңдаңыз."); return; }
+  if(currentDelivery==="delivery" && !address){ showError("Жеткізу үшін мекен-жайды жазыңыз."); return; }
+  document.getElementById("errorText").style.display = "none";
+
+  const v = currentProduct.variants[currentVariantIndex];
+  const inscription = document.getElementById("inscriptionInput").value.trim();
+  const name = document.getElementById("nameInput").value.trim();
+
+  let lines = [];
+  lines.push("Сәлеметсіз бе! Жаңа тапсырыс:");
+  lines.push("Өнім: " + currentProduct.name);
+  if(v.weight && v.weight!=="—") lines.push("Салмағы: " + v.weight);
+  lines.push("Бағасы: " + money(v.price));
+  if(inscription) lines.push("Жазу/тілек: " + inscription);
+  lines.push("Қажет күні: " + date);
+  lines.push("Уақыты: " + time);
+  lines.push("Жеткізу тәсілі: " + (currentDelivery==="delivery" ? "Жеткізу" : "Өзім алып кетемін"));
+  if(currentDelivery==="delivery") lines.push("Мекен-жайы: " + address);
+  if(name) lines.push("Аты-жөні: " + name);
+  lines.push("Қала: Қарағанды");
+
+  const text = lines.join("\n");
+  const url = "https://wa.me/" + WHATSAPP_NUMBER + "?text=" + encodeURIComponent(text);
+  window.open(url, "_blank");
+}
+
+function openWhatsapp(productLine){
+  let text = "Сәлеметсіз бе! ";
+  text += productLine ? "Мен мына позицияны тапсырыс бермек едім: " + productLine + ". Қарағанды қаласы." : "Мәзірден тапсырыс беруге болады ма? Қарағанды қаласы.";
+  window.open("https://wa.me/" + WHATSAPP_NUMBER + "?text=" + encodeURIComponent(text), "_blank");
+}
+</script>
+</body>
+</html>
