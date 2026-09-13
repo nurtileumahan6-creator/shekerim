@@ -2,7 +2,8 @@
 <html lang="kk">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+<meta name="theme-color" content="#FBF3EA">
 <title>Шекерім — Қарағандыдағы торттар мен десерттер</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -21,157 +22,436 @@
     --line:#E7DCCF;
     --err:#B23A3A;
   }
-  *{box-sizing:border-box;}
-  html{scroll-behavior:smooth;}
-  body{margin:0;background:var(--cream);color:var(--ink);font-family:'Manrope',sans-serif;line-height:1.55;}
-  h1,h2,h3,.display{font-family:'Fraunces',serif;font-weight:600;letter-spacing:-0.01em;color:var(--plum-dark);margin:0;}
+  *{box-sizing:border-box;-webkit-tap-highlight-color:transparent;}
+  html{scroll-behavior:smooth;-webkit-text-size-adjust:100%;}
+  body{
+    margin:0;background:var(--cream);color:var(--ink);
+    font-family:'Manrope',sans-serif;line-height:1.55;
+    font-size:15px;overflow-x:hidden;
+  }
+  h1,h2,h3,.display{
+    font-family:'Fraunces',serif;font-weight:600;
+    letter-spacing:-0.01em;color:var(--plum-dark);
+    margin:0;line-height:1.15;
+  }
   a{color:inherit;text-decoration:none;}
-  img,svg{display:block;}
-  .wrap{max-width:1160px;margin:0 auto;padding:0 24px;}
-  button{font-family:inherit;}
+  img,svg{display:block;max-width:100%;}
+  button{font-family:inherit;cursor:pointer;}
+  input,textarea,select{font-family:inherit;}
+  /* 16px to prevent iOS auto-zoom on focus */
+  input[type=text],input[type=date],input[type=time],textarea{font-size:16px;}
 
-  header{position:sticky;top:0;z-index:40;background:rgba(251,243,234,0.94);backdrop-filter:blur(6px);border-bottom:1px solid var(--line);}
-  .header-row{display:flex;align-items:center;justify-content:space-between;padding:16px 24px;max-width:1160px;margin:0 auto;gap:20px;}
-  .logo{font-family:'Fraunces',serif;font-size:26px;font-weight:700;color:var(--plum-dark);display:flex;align-items:center;gap:10px;cursor:pointer;}
-  .logo-mark{width:34px;height:34px;flex-shrink:0;}
-  .header-actions{display:flex;align-items:center;gap:14px;}
-  .lang-switch{display:flex;gap:4px;background:var(--paper);border:1px solid var(--line);border-radius:999px;padding:3px;flex-shrink:0;}
-  .lang-btn{border:none;background:transparent;padding:7px 13px;border-radius:999px;font-size:12.5px;font-weight:700;color:var(--ink-soft);cursor:pointer;transition:.15s ease;}
+  .wrap{max-width:1160px;margin:0 auto;padding:0 16px;}
+
+  /* ============ HEADER ============ */
+  header{
+    position:sticky;top:0;z-index:40;
+    background:rgba(251,243,234,0.96);
+    -webkit-backdrop-filter:blur(8px);backdrop-filter:blur(8px);
+    border-bottom:1px solid var(--line);
+  }
+  .header-row{
+    display:flex;align-items:center;justify-content:space-between;
+    padding:10px 14px;max-width:1160px;margin:0 auto;gap:8px;
+  }
+  .logo{
+    font-family:'Fraunces',serif;font-size:20px;font-weight:700;
+    color:var(--plum-dark);display:flex;align-items:center;gap:8px;
+    cursor:pointer;flex-shrink:0;
+  }
+  .logo-mark{width:30px;height:30px;flex-shrink:0;}
+
+  .header-actions{display:flex;align-items:center;gap:8px;}
+
+  .lang-switch{
+    display:flex;gap:2px;background:var(--paper);
+    border:1px solid var(--line);border-radius:999px;padding:3px;flex-shrink:0;
+  }
+  .lang-btn{
+    border:none;background:transparent;padding:6px 10px;border-radius:999px;
+    font-size:11.5px;font-weight:700;color:var(--ink-soft);
+    cursor:pointer;transition:.15s;min-width:44px;min-height:32px;
+  }
   .lang-btn.active{background:var(--plum);color:#fff;}
-  .phone-line{display:flex;flex-direction:column;text-align:right;font-size:13px;color:var(--ink-soft);}
-  .phone-line strong{font-size:15px;color:var(--ink);font-weight:700;}
-  .btn{display:inline-flex;align-items:center;gap:8px;padding:11px 20px;border-radius:999px;font-weight:700;font-size:14.5px;border:1px solid transparent;cursor:pointer;transition:transform .15s ease, box-shadow .15s ease;}
+
+  .phone-line{display:none;}
+
+  .btn{
+    display:inline-flex;align-items:center;justify-content:center;gap:8px;
+    padding:11px 20px;border-radius:999px;font-weight:700;font-size:14.5px;
+    border:1px solid transparent;cursor:pointer;
+    transition:transform .15s,box-shadow .15s;
+    min-height:44px;
+  }
   .btn:hover{transform:translateY(-1px);}
   .btn-primary{background:var(--plum);color:#fff;}
   .btn-primary:hover{box-shadow:0 8px 18px rgba(110,42,58,0.28);}
   .btn-ghost{background:transparent;border-color:var(--plum);color:var(--plum-dark);}
-  nav.cats{display:flex;gap:8px;overflow-x:auto;padding:12px 24px 16px;max-width:1160px;margin:0 auto;scrollbar-width:none;}
+
+  /* Header order button: icon-only on small phones */
+  .header-order-btn{padding:10px 12px;flex-shrink:0;}
+  .header-order-btn .btn-label{display:none;}
+
+  /* ============ CATEGORY NAV ============ */
+  nav.cats{
+    display:flex;gap:8px;overflow-x:auto;
+    padding:10px 14px 12px;max-width:1160px;margin:0 auto;
+    scrollbar-width:none;-webkit-overflow-scrolling:touch;
+    scroll-snap-type:x proximity;
+  }
   nav.cats::-webkit-scrollbar{display:none;}
-  nav.cats a{flex-shrink:0;padding:8px 16px;border-radius:999px;font-size:14px;font-weight:600;color:var(--ink-soft);border:1px solid var(--line);background:var(--paper);transition:all .15s ease;}
-  nav.cats a:hover, nav.cats a.active{background:var(--plum);color:#fff;border-color:var(--plum);}
+  nav.cats a{
+    flex-shrink:0;padding:8px 14px;border-radius:999px;
+    font-size:13px;font-weight:600;color:var(--ink-soft);
+    border:1px solid var(--line);background:var(--paper);
+    transition:all .15s;scroll-snap-align:start;white-space:nowrap;
+  }
+  nav.cats a:hover,nav.cats a.active{background:var(--plum);color:#fff;border-color:var(--plum);}
 
-  .hero{padding:56px 24px 40px;max-width:1160px;margin:0 auto;}
-  .hero-inner{display:grid;grid-template-columns:1.1fr 0.9fr;gap:48px;align-items:center;}
-  .eyebrow{font-size:14.5px;color:var(--gold);font-weight:700;margin-bottom:14px;}
-  .hero h1{font-size:clamp(34px,4.4vw,54px);line-height:1.08;}
-  .hero p.lead{margin-top:18px;font-size:17px;color:var(--ink-soft);max-width:460px;}
-  .hero-ctas{display:flex;gap:12px;margin-top:28px;flex-wrap:wrap;}
-  .hero-note{margin-top:22px;font-size:13.5px;color:var(--ink-soft);display:flex;gap:8px;align-items:center;}
-  .hero-note svg{width:16px;height:16px;flex-shrink:0;color:var(--gold);}
-  .hero-art{position:relative;display:flex;justify-content:center;}
-  .hero-art svg{width:100%;max-width:360px;}
+  /* ============ HERO ============ */
+  .hero{padding:28px 16px 24px;max-width:1160px;margin:0 auto;}
+  .hero-inner{
+    display:grid;grid-template-columns:1fr;gap:24px;align-items:center;
+  }
+  .hero-art{order:-1;display:flex;justify-content:center;}
+  .hero-art svg{width:100%;max-width:180px;}
 
-  .info-strip{background:var(--plum-dark);color:#F3E3D9;padding:18px 24px;}
-  .info-strip .wrap{display:flex;gap:32px;flex-wrap:wrap;justify-content:space-between;font-size:14px;}
+  .eyebrow{font-size:13px;color:var(--gold);font-weight:700;margin-bottom:10px;}
+  .hero h1{font-size:clamp(28px,7.5vw,42px);line-height:1.1;}
+  .hero p.lead{margin-top:14px;font-size:15.5px;color:var(--ink-soft);max-width:520px;}
+  .hero-ctas{display:flex;gap:10px;margin-top:22px;flex-wrap:wrap;}
+  .hero-ctas .btn{flex:1 1 auto;min-width:150px;}
+  .hero-note{
+    margin-top:18px;font-size:13px;color:var(--ink-soft);
+    display:flex;gap:8px;align-items:flex-start;
+  }
+  .hero-note svg{width:16px;height:16px;flex-shrink:0;color:var(--gold);margin-top:2px;}
+
+  /* ============ INFO STRIP ============ */
+  .info-strip{background:var(--plum-dark);color:#F3E3D9;padding:16px;}
+  .info-strip .wrap{
+    display:flex;flex-direction:column;gap:12px;font-size:13.5px;
+    padding:0;max-width:1160px;
+  }
   .info-strip .item{display:flex;align-items:center;gap:10px;}
   .info-strip svg{width:18px;height:18px;flex-shrink:0;color:var(--rose);}
 
-  section.category{padding:56px 0 8px;}
-  .cat-head{display:flex;justify-content:space-between;align-items:baseline;margin-bottom:28px;gap:16px;flex-wrap:wrap;}
-  .cat-head h2{font-size:30px;}
-  .cat-head p{color:var(--ink-soft);font-size:14.5px;max-width:360px;}
-  .grid{display:grid;grid-template-columns:repeat(3,1fr);gap:22px;}
-  .card{background:var(--paper);border:1px solid var(--line);border-radius:18px;display:flex;flex-direction:column;overflow:hidden;position:relative;}
-  .card-art{height:150px;display:flex;align-items:center;justify-content:center;position:relative;}
-  .card-art svg{width:72px;height:72px;}
-  .card-body{padding:18px 20px 20px;display:flex;flex-direction:column;gap:8px;flex:1;}
+  /* ============ CATEGORIES / CARDS ============ */
+  section.category{padding:40px 0 8px;}
+  .cat-head{
+    display:flex;flex-direction:column;gap:8px;margin-bottom:20px;
+  }
+  .cat-head h2{font-size:24px;}
+  .cat-head p{color:var(--ink-soft);font-size:14px;margin:0;}
+
+  .grid{display:grid;grid-template-columns:1fr;gap:16px;}
+
+  .card{
+    background:var(--paper);border:1px solid var(--line);
+    border-radius:18px;display:flex;flex-direction:column;
+    overflow:hidden;position:relative;
+  }
+  .card-art{height:130px;display:flex;align-items:center;justify-content:center;position:relative;}
+  .card-art svg{width:64px;height:64px;}
+  .card-body{padding:16px 16px 18px;display:flex;flex-direction:column;gap:8px;flex:1;}
   .card-top{display:flex;justify-content:space-between;align-items:baseline;gap:10px;}
-  .card-top h3{font-size:18px;font-weight:600;}
+  .card-top h3{font-size:17px;font-weight:600;}
   .weight{font-size:12.5px;color:var(--ink-soft);white-space:nowrap;}
-  .desc{font-size:13.5px;color:var(--ink-soft);flex:1;}
-  .card-foot{display:flex;justify-content:space-between;align-items:center;margin-top:6px;}
-  .price{font-family:'Fraunces',serif;font-weight:600;font-size:19px;color:var(--plum-dark);}
+  .desc{font-size:13.5px;color:var(--ink-soft);flex:1;margin:0;}
+  .card-foot{display:flex;justify-content:space-between;align-items:center;margin-top:6px;gap:8px;flex-wrap:wrap;}
+  .price{font-family:'Fraunces',serif;font-weight:600;font-size:18px;color:var(--plum-dark);}
   .price small{font-size:12px;font-weight:500;color:var(--ink-soft);font-family:'Manrope',sans-serif;}
-  .order-btn{display:inline-flex;align-items:center;gap:6px;background:var(--rose-soft);color:var(--plum-dark);border-radius:999px;padding:8px 14px;font-size:13px;font-weight:700;border:1px solid transparent;cursor:pointer;transition:.15s ease;}
+  .order-btn{
+    display:inline-flex;align-items:center;gap:6px;
+    background:var(--rose-soft);color:var(--plum-dark);
+    border-radius:999px;padding:9px 14px;font-size:13px;font-weight:700;
+    border:1px solid transparent;cursor:pointer;transition:.15s;min-height:40px;
+  }
   .order-btn:hover{background:var(--plum);color:#fff;}
   .order-btn svg{width:14px;height:14px;}
-  .cert-card .card-art{background:linear-gradient(135deg,var(--plum) 0%, var(--plum-dark) 100%);}
+
+  .cert-card .card-art{background:linear-gradient(135deg,var(--plum) 0%,var(--plum-dark) 100%);}
   .cert-card .price{color:var(--plum);}
   .set-card{border-color:var(--gold);}
-  .set-tag{position:absolute;top:12px;left:12px;background:var(--gold);color:#fff;font-size:11.5px;font-weight:700;padding:4px 10px;border-radius:999px;z-index:2;}
+  .set-tag{
+    position:absolute;top:12px;left:12px;background:var(--gold);color:#fff;
+    font-size:11.5px;font-weight:700;padding:4px 10px;border-radius:999px;z-index:2;
+  }
 
-  .cta-band{margin:70px auto 0;max-width:1160px;padding:0 24px;}
-  .cta-inner{background:var(--plum);color:#fff;border-radius:24px;padding:48px 40px;display:grid;grid-template-columns:1.3fr 0.7fr;gap:24px;align-items:center;}
-  .cta-inner h2{color:#fff;font-size:28px;}
-  .cta-inner p{color:#F0D9DC;margin-top:10px;font-size:15px;max-width:420px;}
+  /* ============ CTA BAND ============ */
+  .cta-band{margin:48px auto 0;max-width:1160px;padding:0 16px;}
+  .cta-inner{
+    background:var(--plum);color:#fff;border-radius:20px;
+    padding:30px 22px;display:grid;grid-template-columns:1fr;gap:20px;align-items:center;
+  }
+  .cta-inner h2{color:#fff;font-size:22px;}
+  .cta-inner p{color:#F0D9DC;margin-top:10px;font-size:14.5px;max-width:460px;margin-bottom:0;}
   .cta-inner .btn-primary{background:#fff;color:var(--plum-dark);}
-  .cta-actions{display:flex;justify-content:flex-end;}
+  .cta-actions{display:flex;justify-content:flex-start;}
 
-  footer{margin-top:70px;padding:44px 24px 30px;border-top:1px solid var(--line);}
-  .foot-grid{max-width:1160px;margin:0 auto;display:grid;grid-template-columns:1.4fr 1fr 1fr;gap:32px;}
-  .foot-grid h4{font-size:14px;color:var(--ink-soft);font-weight:700;margin-bottom:12px;}
-  .foot-grid p, .foot-grid a{font-size:14px;color:var(--ink);display:block;margin-bottom:8px;}
-  .foot-brand{font-family:'Fraunces',serif;font-size:22px;font-weight:700;color:var(--plum-dark);margin-bottom:10px;}
-  .foot-bottom{max-width:1160px;margin:36px auto 0;padding-top:20px;border-top:1px solid var(--line);font-size:12.5px;color:var(--ink-soft);display:flex;justify-content:space-between;flex-wrap:wrap;gap:8px;}
+  /* ============ FOOTER ============ */
+  footer{margin-top:48px;padding:32px 16px 24px;border-top:1px solid var(--line);}
+  .foot-grid{
+    max-width:1160px;margin:0 auto;
+    display:grid;grid-template-columns:1fr;gap:24px;
+  }
+  .foot-grid h4{font-size:13.5px;color:var(--ink-soft);font-weight:700;margin:0 0 12px;}
+  .foot-grid p,.foot-grid a{font-size:14px;color:var(--ink);display:block;margin:0 0 8px;}
+  .foot-brand{font-family:'Fraunces',serif;font-size:20px;font-weight:700;color:var(--plum-dark);margin-bottom:10px;}
+  .foot-bottom{
+    max-width:1160px;margin:28px auto 0;padding-top:18px;
+    border-top:1px solid var(--line);font-size:12.5px;color:var(--ink-soft);
+    display:flex;flex-direction:column;gap:6px;
+  }
 
-  .float-wa{position:fixed;bottom:22px;right:22px;z-index:50;background:#25D366;color:#fff;border-radius:999px;width:58px;height:58px;display:flex;align-items:center;justify-content:center;box-shadow:0 10px 24px rgba(0,0,0,0.22);transition:transform .15s ease;}
+  /* ============ FLOAT WHATSAPP ============ */
+  .float-wa{
+    position:fixed;bottom:16px;right:16px;z-index:50;
+    background:#25D366;color:#fff;border-radius:999px;
+    width:52px;height:52px;display:flex;align-items:center;justify-content:center;
+    box-shadow:0 10px 24px rgba(0,0,0,0.22);transition:transform .15s;
+  }
   .float-wa:hover{transform:scale(1.06);}
-  .float-wa svg{width:28px;height:28px;}
+  .float-wa svg{width:26px;height:26px;}
 
+  /* ============ ORDER PAGE ============ */
   #orderView{display:none;min-height:100vh;}
-  .order-header{position:sticky;top:0;z-index:40;background:rgba(251,243,234,0.96);backdrop-filter:blur(6px);border-bottom:1px solid var(--line);padding:16px 24px;}
-  .order-header .wrap{display:flex;align-items:center;gap:14px;padding:0;max-width:1160px;}
-  .back-btn{display:flex;align-items:center;gap:8px;font-weight:700;font-size:14.5px;color:var(--plum-dark);cursor:pointer;background:none;border:none;padding:8px 6px;}
-  .back-btn svg{width:18px;height:18px;}
-  .order-header h2{font-size:18px;}
-  .order-wrap{max-width:760px;margin:0 auto;padding:36px 24px 140px;}
-  .order-product{display:flex;gap:18px;align-items:center;background:var(--paper);border:1px solid var(--line);border-radius:18px;padding:16px;margin-bottom:30px;}
-  .order-product .art-mini{width:76px;height:76px;border-radius:14px;display:flex;align-items:center;justify-content:center;flex-shrink:0;}
-  .order-product .art-mini svg{width:42px;height:42px;}
-  .order-product .cat-label{font-size:12.5px;color:var(--ink-soft);text-transform:none;margin-bottom:2px;}
-  .order-product h3{font-size:19px;}
-  .order-section{margin-bottom:30px;}
-  .order-section > label.section-title{display:block;font-weight:700;font-size:15px;margin-bottom:12px;color:var(--plum-dark);}
-  .hint{font-size:12.5px;color:var(--ink-soft);margin-top:-6px;margin-bottom:12px;}
-  .weight-options{display:flex;gap:10px;flex-wrap:wrap;}
-  .weight-pill{border:1.5px solid var(--line);background:var(--paper);border-radius:14px;padding:12px 16px;cursor:pointer;min-width:110px;text-align:center;transition:.15s ease;}
-  .weight-pill .w{font-weight:700;font-size:14.5px;}
-  .weight-pill .p{font-size:13px;color:var(--ink-soft);margin-top:3px;}
+  .order-header{
+    position:sticky;top:0;z-index:40;
+    background:rgba(251,243,234,0.96);
+    -webkit-backdrop-filter:blur(8px);backdrop-filter:blur(8px);
+    border-bottom:1px solid var(--line);padding:12px 14px;
+  }
+  .order-header .wrap{
+    display:flex;align-items:center;gap:10px;padding:0;max-width:1160px;
+  }
+  .back-btn{
+    display:flex;align-items:center;gap:6px;font-weight:700;font-size:14px;
+    color:var(--plum-dark);cursor:pointer;background:none;border:none;
+    padding:8px 4px;min-height:44px;
+  }
+  .back-btn svg{width:18px;height:18px;flex-shrink:0;}
+  .order-header h2{font-size:16px;}
+
+  .order-wrap{max-width:760px;margin:0 auto;padding:22px 16px 130px;}
+
+  .order-product{
+    display:flex;gap:14px;align-items:center;
+    background:var(--paper);border:1px solid var(--line);
+    border-radius:16px;padding:14px;margin-bottom:24px;
+  }
+  .order-product .art-mini{
+    width:60px;height:60px;border-radius:12px;
+    display:flex;align-items:center;justify-content:center;flex-shrink:0;
+  }
+  .order-product .art-mini svg{width:34px;height:34px;}
+  .order-product .cat-label{font-size:12px;color:var(--ink-soft);margin-bottom:2px;}
+  .order-product h3{font-size:16.5px;}
+
+  .order-section{margin-bottom:24px;}
+  .order-section > label.section-title{
+    display:block;font-weight:700;font-size:14.5px;
+    margin-bottom:10px;color:var(--plum-dark);
+  }
+  .hint{font-size:12.5px;color:var(--ink-soft);margin:-4px 0 10px;}
+
+  .weight-options{
+    display:grid;grid-template-columns:repeat(2,1fr);gap:10px;
+  }
+  .weight-pill{
+    border:1.5px solid var(--line);background:var(--paper);
+    border-radius:14px;padding:12px 12px;cursor:pointer;text-align:center;
+    transition:.15s;
+  }
+  .weight-pill .w{font-weight:700;font-size:14px;}
+  .weight-pill .p{font-size:12.5px;color:var(--ink-soft);margin-top:3px;}
   .weight-pill.active{border-color:var(--plum);background:var(--rose-soft);}
   .weight-pill.active .p{color:var(--plum-dark);}
-  .fixed-weight-row{display:flex;justify-content:space-between;align-items:center;background:var(--paper);border:1px solid var(--line);border-radius:14px;padding:14px 16px;font-size:14.5px;}
+
+  .fixed-weight-row{
+    display:flex;justify-content:space-between;align-items:center;
+    background:var(--paper);border:1px solid var(--line);
+    border-radius:14px;padding:14px 16px;font-size:14.5px;gap:10px;flex-wrap:wrap;
+  }
   .fixed-weight-row strong{color:var(--plum-dark);}
-  textarea, input[type=text], input[type=date], input[type=time]{
-    width:100%;padding:13px 14px;border-radius:12px;border:1.5px solid var(--line);
-    font-family:'Manrope',sans-serif;font-size:14.5px;color:var(--ink);background:var(--paper);
+
+  textarea,input[type=text],input[type=date],input[type=time]{
+    width:100%;padding:13px 14px;border-radius:12px;
+    border:1.5px solid var(--line);color:var(--ink);
+    background:var(--paper);font-family:'Manrope',sans-serif;
   }
   textarea{resize:vertical;min-height:80px;}
-  textarea:focus, input:focus{outline:none;border-color:var(--plum);}
-  .row2{display:grid;grid-template-columns:1fr 1fr;gap:14px;}
-  .delivery-options{display:flex;gap:10px;}
-  .delivery-pill{flex:1;border:1.5px solid var(--line);background:var(--paper);border-radius:14px;padding:14px 16px;cursor:pointer;text-align:center;font-weight:700;font-size:14.5px;color:var(--ink-soft);transition:.15s ease;display:flex;align-items:center;justify-content:center;gap:8px;}
-  .delivery-pill svg{width:18px;height:18px;}
+  textarea:focus,input:focus{outline:none;border-color:var(--plum);}
+
+  .row2{display:grid;grid-template-columns:1fr;gap:12px;}
+  .delivery-options{display:grid;grid-template-columns:1fr 1fr;gap:10px;}
+  .delivery-pill{
+    border:1.5px solid var(--line);background:var(--paper);
+    border-radius:14px;padding:13px 10px;cursor:pointer;text-align:center;
+    font-weight:700;font-size:13.5px;color:var(--ink-soft);
+    transition:.15s;display:flex;align-items:center;justify-content:center;
+    gap:6px;min-height:48px;
+  }
+  .delivery-pill svg{width:16px;height:16px;flex-shrink:0;}
   .delivery-pill.active{border-color:var(--plum);background:var(--rose-soft);color:var(--plum-dark);}
   .delivery-pill.pill-disabled{opacity:.4;cursor:not-allowed;pointer-events:none;}
-  #addressWrap{margin-top:14px;display:none;}
-  .field-label{display:block;font-size:13.5px;font-weight:600;color:var(--ink-soft);margin-bottom:7px;}
-  .error-text{color:var(--err);font-size:13px;margin-top:10px;display:none;}
-  .order-bar{position:fixed;left:0;right:0;bottom:0;background:var(--paper);border-top:1px solid var(--line);padding:16px 24px;z-index:45;}
-  .order-bar-inner{max-width:760px;margin:0 auto;display:flex;justify-content:space-between;align-items:center;gap:16px;flex-wrap:wrap;}
-  .order-total{display:flex;flex-direction:column;}
-  .order-total span{font-size:12.5px;color:var(--ink-soft);}
-  .order-total strong{font-family:'Fraunces',serif;font-size:24px;color:var(--plum-dark);}
-  .final-order-btn{padding:14px 26px;font-size:15.5px;}
 
-  @media (max-width:860px){
-    .hero-inner{grid-template-columns:1fr;}
-    .hero-art{order:-1;}
-    .hero-art svg{max-width:220px;}
-    .grid{grid-template-columns:repeat(2,1fr);}
-    .cta-inner{grid-template-columns:1fr;text-align:left;}
-    .cta-actions{justify-content:flex-start;}
-    .foot-grid{grid-template-columns:1fr;}
-    .phone-line{display:none;}
-    .row2{grid-template-columns:1fr;}
+  #addressWrap{margin-top:12px;display:none;}
+  .field-label{
+    display:block;font-size:13px;font-weight:600;
+    color:var(--ink-soft);margin-bottom:6px;
   }
-  @media (max-width:540px){
-    .grid{grid-template-columns:1fr;}
-    .header-row{padding:14px 18px;}
-    .hero{padding:40px 18px 28px;}
-    .wrap{padding:0 18px;}
-    .order-wrap{padding:26px 18px 150px;}
+  .error-text{color:var(--err);font-size:13px;margin-top:10px;display:none;}
+
+  /* ============ ORDER BOTTOM BAR ============ */
+  .order-bar{
+    position:fixed;left:0;right:0;bottom:0;
+    background:var(--paper);border-top:1px solid var(--line);
+    padding:12px 14px calc(12px + env(safe-area-inset-bottom,0px));
+    z-index:45;
   }
-  @media (prefers-reduced-motion: reduce){*{transition:none !important;}}
+  .order-bar-inner{
+    max-width:760px;margin:0 auto;
+    display:flex;justify-content:space-between;align-items:center;gap:12px;
+  }
+  .order-total{display:flex;flex-direction:column;min-width:0;}
+  .order-total span{font-size:12px;color:var(--ink-soft);}
+  .order-total strong{
+    font-family:'Fraunces',serif;font-size:20px;color:var(--plum-dark);
+    white-space:nowrap;
+  }
+  .final-order-btn{padding:12px 18px;font-size:14.5px;flex-shrink:0;}
+
+  /* ===================================================== */
+  /* ============ TABLET (≥560px) ========================= */
+  /* ===================================================== */
+  @media (min-width:560px){
+    .grid{grid-template-columns:repeat(2,1fr);gap:18px;}
+    .weight-options{grid-template-columns:repeat(3,1fr);}
+    .row2{grid-template-columns:1fr 1fr;gap:14px;}
+    .foot-grid{grid-template-columns:1fr 1fr;gap:28px;}
+    .foot-bottom{flex-direction:row;justify-content:space-between;align-items:center;gap:8px;}
+
+    .header-order-btn .btn-label{display:inline;}
+    .header-order-btn{padding:11px 18px;}
+
+    .hero-art svg{max-width:240px;}
+    .card-art{height:150px;}
+    .card-art svg{width:72px;height:72px;}
+
+    .order-product .art-mini{width:72px;height:72px;}
+    .order-product .art-mini svg{width:40px;height:40px;}
+    .order-product h3{font-size:18px;}
+  }
+
+  /* ===================================================== */
+  /* ============ TABLET LANDSCAPE / SMALL DESKTOP (≥900) = */
+  /* ===================================================== */
+  @media (min-width:900px){
+    .wrap{padding:0 24px;}
+
+    .header-row{padding:16px 24px;gap:20px;}
+    .logo{font-size:26px;gap:10px;}
+    .logo-mark{width:34px;height:34px;}
+    .header-actions{gap:14px;}
+    .lang-btn{padding:7px 13px;font-size:12.5px;min-width:auto;}
+    .phone-line{
+      display:flex;flex-direction:column;text-align:right;
+      font-size:13px;color:var(--ink-soft);
+    }
+    .phone-line strong{font-size:15px;color:var(--ink);font-weight:700;}
+    .btn{padding:11px 20px;font-size:14.5px;}
+
+    nav.cats{padding:12px 24px 16px;gap:8px;}
+    nav.cats a{font-size:14px;padding:8px 16px;}
+
+    .hero{padding:56px 24px 40px;}
+    .hero-inner{grid-template-columns:1.1fr 0.9fr;gap:48px;}
+    .hero-art{order:0;}
+    .hero-art svg{max-width:360px;}
+    .hero h1{font-size:clamp(34px,4.4vw,54px);}
+    .hero p.lead{font-size:17px;margin-top:18px;}
+    .hero-ctas{gap:12px;margin-top:28px;}
+    .hero-ctas .btn{flex:0 0 auto;min-width:0;}
+    .hero-note{margin-top:22px;font-size:13.5px;align-items:center;}
+    .eyebrow{font-size:14.5px;margin-bottom:14px;}
+
+    .info-strip{padding:18px 24px;}
+    .info-strip .wrap{
+      flex-direction:row;justify-content:space-between;
+      gap:32px;font-size:14px;
+    }
+
+    section.category{padding:56px 0 8px;}
+    .cat-head{
+      flex-direction:row;justify-content:space-between;
+      align-items:baseline;gap:16px;margin-bottom:28px;
+    }
+    .cat-head h2{font-size:30px;}
+    .cat-head p{font-size:14.5px;max-width:360px;}
+
+    .grid{grid-template-columns:repeat(3,1fr);gap:22px;}
+    .card-body{padding:18px 20px 20px;}
+    .card-top h3{font-size:18px;}
+    .price{font-size:19px;}
+    .order-btn{padding:8px 14px;font-size:13px;min-height:auto;}
+
+    .cta-band{margin:70px auto 0;padding:0 24px;}
+    .cta-inner{
+      grid-template-columns:1.3fr 0.7fr;gap:24px;
+      padding:48px 40px;border-radius:24px;
+    }
+    .cta-inner h2{font-size:28px;}
+    .cta-inner p{font-size:15px;margin-top:10px;}
+    .cta-actions{justify-content:flex-end;}
+
+    footer{margin-top:70px;padding:44px 24px 30px;}
+    .foot-grid{grid-template-columns:1.4fr 1fr 1fr;gap:32px;}
+    .foot-brand{font-size:22px;}
+    .foot-bottom{margin-top:36px;padding-top:20px;}
+
+    .float-wa{
+      bottom:22px;right:22px;width:58px;height:58px;
+    }
+    .float-wa svg{width:28px;height:28px;}
+
+    .order-header{padding:16px 24px;}
+    .order-header h2{font-size:18px;}
+    .back-btn{font-size:14.5px;gap:8px;padding:8px 6px;}
+
+    .order-wrap{padding:36px 24px 140px;}
+    .order-product{padding:16px;gap:18px;border-radius:18px;margin-bottom:30px;}
+    .order-section{margin-bottom:30px;}
+    .order-section > label.section-title{font-size:15px;margin-bottom:12px;}
+    .hint{font-size:12.5px;margin-bottom:12px;}
+    .weight-options{display:flex;flex-wrap:wrap;gap:10px;}
+    .weight-pill{padding:12px 16px;min-width:110px;}
+
+    .delivery-pill{padding:14px 16px;font-size:14.5px;}
+
+    .order-bar{padding:16px 24px;}
+    .order-bar-inner{gap:16px;}
+    .order-total strong{font-size:24px;}
+    .final-order-btn{padding:14px 26px;font-size:15.5px;}
+  }
+
+  /* ===================================================== */
+  /* ============ VERY SMALL PHONES (<360px) ============== */
+  /* ===================================================== */
+  @media (max-width:359px){
+    .logo{font-size:18px;gap:6px;}
+    .logo-mark{width:26px;height:26px;}
+    .lang-btn{padding:6px 8px;font-size:11px;min-width:40px;}
+    .hero h1{font-size:26px;}
+    .cat-head h2{font-size:22px;}
+    .order-total strong{font-size:18px;}
+    .final-order-btn{padding:11px 14px;font-size:13.5px;}
+  }
+
+  /* ============ ACCESSIBILITY ============ */
+  @media (prefers-reduced-motion: reduce){
+    *{transition:none !important;animation:none !important;}
+  }
 </style>
 </head>
 <body>
@@ -197,9 +477,9 @@
         <span id="phoneLabel">WhatsApp тапсырыс</span>
         <strong>8 705 843 74 72</strong>
       </div>
-      <a class="btn btn-primary" href="#" onclick="openWhatsapp(''); return false;">
+      <a class="btn btn-primary header-order-btn" href="#" onclick="openWhatsapp(''); return false;">
         <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path d="M12.04 2C6.58 2 2.13 6.45 2.13 11.91c0 1.87.51 3.62 1.4 5.12L2 22l5.15-1.5a9.8 9.8 0 0 0 4.89 1.31h.01c5.46 0 9.91-4.45 9.91-9.91C21.96 6.45 17.51 2 12.04 2zm5.8 14.05c-.24.68-1.4 1.32-1.93 1.4-.5.08-1.12.11-1.8-.11-.42-.13-.96-.31-1.65-.6-2.9-1.25-4.79-4.16-4.94-4.36-.14-.2-1.18-1.57-1.18-3 0-1.42.75-2.12 1.02-2.4.26-.28.57-.35.76-.35h.55c.18 0 .42-.07.65.5.24.6.82 2.02.89 2.17.07.15.12.32.02.51-.1.19-.15.31-.3.48-.15.17-.31.38-.44.51-.15.15-.3.32-.13.62.17.3.77 1.28 1.65 2.07 1.14 1.02 2.1 1.34 2.4 1.49.3.15.48.13.66-.05.18-.18.76-.87.96-1.17.2-.3.4-.25.66-.15.27.1 1.7.8 1.99.95.3.15.5.22.57.35.08.13.08.75-.16 1.44z"/></svg>
-        <span id="headerOrderBtnText">Тапсырыс беру</span>
+        <span id="headerOrderBtnText" class="btn-label">Тапсырыс беру</span>
       </a>
     </div>
   </div>
@@ -434,249 +714,139 @@ let currentLang = "kk";
 
 const STRINGS = {
   kk: {
-    phone_label: "WhatsApp тапсырыс",
-    header_order_btn: "Тапсырыс беру",
-    nav_tortlar: "Торттар",
-    nav_desertter: "Десерттер",
-    nav_kapkeikter: "Капкейктер мен тартталеткалар",
-    nav_makarons: "Макаронс пен безе",
-    nav_setter: "Сеттер мен сертификаттар",
-    hero_eyebrow: "Қарағанды · WhatsApp арқылы тапсырыс",
-    hero_h1: "Тәтті сәттерге<br>арналған торттар мен десерттер",
-    hero_lead: "Торттың салмағын өзіңіз таңдайсыз, тортқа жазу қалдырасыз, керек күні мен уақытын, жеткізу тәсілін белгілейсіз — содан кейін тапсырыс бір батырмамен WhatsApp-қа жіберіледі.",
-    hero_btn_menu: "Мәзірді көру",
-    hero_btn_wa: "WhatsApp-қа жазу",
-    hero_note: "Қарағанды қаласы бойынша дайын, тапсырыс алдын ала қабылданады",
-    info_1: "Тапсырыс тек WhatsApp арқылы қабылданады",
-    info_2: "Күн сайын 09:00–20:00",
-    info_3: "Қарағанды — алып кету және жеткізу",
-    cat_tortlar_h2: "Торттар",
-    cat_tortlar_p: "Салмағын өзіңіз таңдайсыз: 0.5 кг, 1 кг немесе 1.5 кг. Ойылған дизайн мен жазу қосу мүмкіндігі бар.",
-    cat_desertter_h2: "Десерттер",
-    cat_desertter_p: "Жеке порциялы десерттер — сый ретінде де, өзіңізге сыйлық ретінде де.",
-    cat_kapkeikter_h2: "Капкейктер мен тартталеткалар",
-    cat_kapkeikter_p: "Шайға қосымша, кеңседегі жиналысқа немесе балалар мерекесіне ыңғайлы.",
-    cat_makarons_h2: "Макаронс пен безе",
-    cat_makarons_p: "Түрлі-түсті, әр қатырмасы бөлек дайындалатын нәзік тәттілер.",
-    cat_setter_h2: "Сеттер мен сертификаттар",
-    cat_setter_p: "Мерекеге дайын жинақтар және кез келген сомадағы сый сертификаттары.",
-    cta_h2: "Тапсырысыңызды дайын<br>күйде WhatsApp-қа жіберіңіз",
-    cta_p: "Өнімді таңдап, «Тапсырыс беру» батырмасын басыңыз — салмағын, күні мен уақытын, жеткізу тәсілін белгілеп, дайын хабарлама WhatsApp-та ашылады.",
-    cta_btn_menu: "Мәзірді көру",
-    foot_brand_p: "Қарағанды қаласындағы торттар мен десерттер шеберханасы. Тапсырыстар WhatsApp арқылы қабылданады, дайындау мерзімі позицияға байланысты алдын ала келісіледі.",
-    foot_contact_h4: "Байланыс",
-    foot_city: "Қарағанды қаласы",
-    foot_hours: "Күн сайын 09:00–20:00",
-    foot_cat_h4: "Санаттар",
-    foot_bottom_left: "Шекерім — демо сайт, Қарағанды",
-    foot_bottom_right: "Барлық тапсырыстар WhatsApp арқылы расталады",
-    float_wa_aria: "WhatsApp арқылы жазу",
-    back_btn: "Мәзірге қайту",
-    order_header_h2: "Тапсырысты рәсімдеу",
-    weight_section_multi_label: "Салмағын таңдаңыз",
-    weight_section_fixed_label: "Салмағы мен бағасы",
-    inscription_label_cake: "Тортқа жазылатын жазу",
-    inscription_label_other: "Тілек-хабарлама (қаласаңыз)",
-    inscription_hint: "Қаласаңыз, тортқа жазылатын мәтінді осы жерге жазыңыз (міндетті емес)",
-    inscription_placeholder: "Мысалы: Туған күнің құтты болсын, Айгерім!",
-    datetime_section_title: "Қай күнге және сағатқа керек",
-    date_field_label: "Күні",
-    time_field_label: "Уақыты",
-    delivery_section_title: "Жеткізу тәсілі",
-    delivery_pill_delivery: "Жеткізу",
-    delivery_pill_pickup: "Өзім алып кетемін",
-    address_field_label: "Мекен-жайы",
-    address_placeholder: "Көше, үй, пәтер, кіреберіс",
-    payment_section_title: "Төлем түрі",
-    payment_pill_kaspi: "Kaspi",
-    payment_pill_cash: "Қолма-қол",
-    payment_hint_delivery: "Жеткізу кезінде тек Kaspi арқылы төленеді",
-    name_section_title: "Аты-жөніңіз",
-    name_hint: "Міндетті емес, бірақ тапсырысты танып алуға көмектеседі",
-    name_placeholder: "Атыңыз",
-    order_total_label: "Жалпы сомасы",
-    final_order_btn: "Тапсырыс беру",
-    err_date: "Қай күнге керек екенін таңдаңыз.",
-    err_time: "Қажетті уақытты таңдаңыз.",
-    err_delivery: "Жеткізу тәсілін таңдаңыз.",
-    err_address: "Жеткізу үшін мекен-жайды жазыңыз.",
-    err_payment: "Төлем түрін таңдаңыз.",
-    wa_greeting: "Сәлеметсіз бе! Жаңа тапсырыс:",
-    wa_product: "Өнім: ",
-    wa_weight: "Салмағы: ",
-    wa_price: "Бағасы: ",
-    wa_inscription: "Жазу/тілек: ",
-    wa_date: "Қажет күні: ",
-    wa_time: "Уақыты: ",
-    wa_delivery: "Жеткізу тәсілі: ",
-    wa_delivery_val: "Жеткізу",
-    wa_pickup_val: "Өзім алып кетемін",
-    wa_address: "Мекен-жайы: ",
-    wa_name: "Аты-жөні: ",
-    wa_city: "Қала: Қарағанды",
-    wa_payment: "Төлем түрі: ",
-    wa_payment_kaspi: "Kaspi",
-    wa_payment_cash: "Қолма-қол",
-    wa_greet_generic: "Сәлеметсіз бе! ",
-    wa_generic_product: "Мен мына позицияны тапсырыс бермек едім: ",
-    wa_generic_city_suffix: ". Қарағанды қаласы.",
-    wa_generic_no_product: "Мәзірден тапсырыс беруге бола ма? Қарағанды қаласы.",
-    price_from: "бастап",
-    cert_label: "Сертификат",
-    weight_prefix: "Салмағы: "
+    phone_label:"WhatsApp тапсырыс",header_order_btn:"Тапсырыс беру",
+    nav_tortlar:"Торттар",nav_desertter:"Десерттер",
+    nav_kapkeikter:"Капкейктер мен тартталеткалар",nav_makarons:"Макаронс пен безе",
+    nav_setter:"Сеттер мен сертификаттар",
+    hero_eyebrow:"Қарағанды · WhatsApp арқылы тапсырыс",
+    hero_h1:"Тәтті сәттерге<br>арналған торттар мен десерттер",
+    hero_lead:"Торттың салмағын өзіңіз таңдайсыз, тортқа жазу қалдырасыз, керек күні мен уақытын, жеткізу тәсілін белгілейсіз — содан кейін тапсырыс бір батырмамен WhatsApp-қа жіберіледі.",
+    hero_btn_menu:"Мәзірді көру",hero_btn_wa:"WhatsApp-қа жазу",
+    hero_note:"Қарағанды қаласы бойынша дайын, тапсырыс алдын ала қабылданады",
+    info_1:"Тапсырыс тек WhatsApp арқылы қабылданады",info_2:"Күн сайын 09:00–20:00",
+    info_3:"Қарағанды — алып кету және жеткізу",
+    cat_tortlar_h2:"Торттар",
+    cat_tortlar_p:"Салмағын өзіңіз таңдайсыз: 0.5 кг, 1 кг немесе 1.5 кг. Ойылған дизайн мен жазу қосу мүмкіндігі бар.",
+    cat_desertter_h2:"Десерттер",cat_desertter_p:"Жеке порциялы десерттер — сый ретінде де, өзіңізге сыйлық ретінде де.",
+    cat_kapkeikter_h2:"Капкейктер мен тартталеткалар",cat_kapkeikter_p:"Шайға қосымша, кеңседегі жиналысқа немесе балалар мерекесіне ыңғайлы.",
+    cat_makarons_h2:"Макаронс пен безе",cat_makarons_p:"Түрлі-түсті, әр қатырмасы бөлек дайындалатын нәзік тәттілер.",
+    cat_setter_h2:"Сеттер мен сертификаттар",cat_setter_p:"Мерекеге дайын жинақтар және кез келген сомадағы сый сертификаттары.",
+    cta_h2:"Тапсырысыңызды дайын<br>күйде WhatsApp-қа жіберіңіз",
+    cta_p:"Өнімді таңдап, «Тапсырыс беру» батырмасын басыңыз — салмағын, күні мен уақытын, жеткізу тәсілін белгілеп, дайын хабарлама WhatsApp-та ашылады.",
+    cta_btn_menu:"Мәзірді көру",
+    foot_brand_p:"Қарағанды қаласындағы торттар мен десерттер шеберханасы. Тапсырыстар WhatsApp арқылы қабылданады, дайындау мерзімі позицияға байланысты алдын ала келісіледі.",
+    foot_contact_h4:"Байланыс",foot_city:"Қарағанды қаласы",foot_hours:"Күн сайын 09:00–20:00",
+    foot_cat_h4:"Санаттар",foot_bottom_left:"Шекерім — демо сайт, Қарағанды",
+    foot_bottom_right:"Барлық тапсырыстар WhatsApp арқылы расталады",
+    float_wa_aria:"WhatsApp арқылы жазу",back_btn:"Мәзірге қайту",
+    order_header_h2:"Тапсырысты рәсімдеу",weight_section_multi_label:"Салмағын таңдаңыз",
+    weight_section_fixed_label:"Салмағы мен бағасы",
+    inscription_label_cake:"Тортқа жазылатын жазу",inscription_label_other:"Тілек-хабарлама (қаласаңыз)",
+    inscription_hint:"Қаласаңыз, тортқа жазылатын мәтінді осы жерге жазыңыз (міндетті емес)",
+    inscription_placeholder:"Мысалы: Туған күнің құтты болсын, Айгерім!",
+    datetime_section_title:"Қай күнге және сағатқа керек",date_field_label:"Күні",time_field_label:"Уақыты",
+    delivery_section_title:"Жеткізу тәсілі",delivery_pill_delivery:"Жеткізу",delivery_pill_pickup:"Өзім алып кетемін",
+    address_field_label:"Мекен-жайы",address_placeholder:"Көше, үй, пәтер, кіреберіс",
+    payment_section_title:"Төлем түрі",payment_pill_kaspi:"Kaspi",payment_pill_cash:"Қолма-қол",
+    payment_hint_delivery:"Жеткізу кезінде тек Kaspi арқылы төленеді",
+    name_section_title:"Аты-жөніңіз",name_hint:"Міндетті емес, бірақ тапсырысты танып алуға көмектеседі",
+    name_placeholder:"Атыңыз",order_total_label:"Жалпы сомасы",final_order_btn:"Тапсырыс беру",
+    err_date:"Қай күнге керек екенін таңдаңыз.",err_time:"Қажетті уақытты таңдаңыз.",
+    err_delivery:"Жеткізу тәсілін таңдаңыз.",err_address:"Жеткізу үшін мекен-жайды жазыңыз.",
+    err_payment:"Төлем түрін таңдаңыз.",
+    wa_greeting:"Сәлеметсіз бе! Жаңа тапсырыс:",wa_product:"Өнім: ",wa_weight:"Салмағы: ",
+    wa_price:"Бағасы: ",wa_inscription:"Жазу/тілек: ",wa_date:"Қажет күні: ",wa_time:"Уақыты: ",
+    wa_delivery:"Жеткізу тәсілі: ",wa_delivery_val:"Жеткізу",wa_pickup_val:"Өзім алып кетемін",
+    wa_address:"Мекен-жайы: ",wa_name:"Аты-жөні: ",wa_city:"Қала: Қарағанды",
+    wa_payment:"Төлем түрі: ",wa_payment_kaspi:"Kaspi",wa_payment_cash:"Қолма-қол",
+    wa_greet_generic:"Сәлеметсіз бе! ",wa_generic_product:"Мен мына позицияны тапсырыс бермек едім: ",
+    wa_generic_city_suffix:". Қарағанды қаласы.",
+    wa_generic_no_product:"Мәзірден тапсырыс беруге бола ма? Қарағанды қаласы.",
+    price_from:"бастап",cert_label:"Сертификат",weight_prefix:"Салмағы: "
   },
   ru: {
-    phone_label: "Заказ через WhatsApp",
-    header_order_btn: "Оформить заказ",
-    nav_tortlar: "Торты",
-    nav_desertter: "Десерты",
-    nav_kapkeikter: "Капкейки и тарталетки",
-    nav_makarons: "Макаронс и безе",
-    nav_setter: "Сеты и сертификаты",
-    hero_eyebrow: "Караганда · Заказ через WhatsApp",
-    hero_h1: "Торты и десерты<br>для сладких моментов",
-    hero_lead: "Вы сами выбираете вес торта, оставляете надпись, указываете нужную дату, время и способ доставки — после этого заказ одной кнопкой отправляется в WhatsApp.",
-    hero_btn_menu: "Смотреть меню",
-    hero_btn_wa: "Написать в WhatsApp",
-    hero_note: "Готовим по городу Караганда, заказ принимается заранее",
-    info_1: "Заказы принимаются только через WhatsApp",
-    info_2: "Ежедневно 09:00–20:00",
-    info_3: "Караганда — самовывоз и доставка",
-    cat_tortlar_h2: "Торты",
-    cat_tortlar_p: "Вы сами выбираете вес: 0.5 кг, 1 кг или 1.5 кг. Есть возможность добавить дизайн и надпись.",
-    cat_desertter_h2: "Десерты",
-    cat_desertter_p: "Порционные десерты — как подарок или для себя.",
-    cat_kapkeikter_h2: "Капкейки и тарталетки",
-    cat_kapkeikter_p: "Отлично подойдут к чаю, для офиса или детского праздника.",
-    cat_makarons_h2: "Макаронс и безе",
-    cat_makarons_p: "Разноцветные нежные десерты, каждый готовится отдельно.",
-    cat_setter_h2: "Сеты и сертификаты",
-    cat_setter_p: "Готовые наборы к празднику и подарочные сертификаты на любую сумму.",
-    cta_h2: "Отправьте готовый заказ<br>в WhatsApp",
-    cta_p: "Выберите товар и нажмите «Оформить заказ» — укажите вес, дату, время и способ доставки, готовое сообщение откроется в WhatsApp.",
-    cta_btn_menu: "Смотреть меню",
-    foot_brand_p: "Мастерская тортов и десертов в городе Караганда. Заказы принимаются через WhatsApp, срок изготовления согласовывается заранее в зависимости от позиции.",
-    foot_contact_h4: "Контакты",
-    foot_city: "город Караганда",
-    foot_hours: "Ежедневно 09:00–20:00",
-    foot_cat_h4: "Категории",
-    foot_bottom_left: "Шекерім — демо-сайт, Караганда",
-    foot_bottom_right: "Все заказы подтверждаются через WhatsApp",
-    float_wa_aria: "Написать в WhatsApp",
-    back_btn: "Вернуться в меню",
-    order_header_h2: "Оформление заказа",
-    weight_section_multi_label: "Выберите вес",
-    weight_section_fixed_label: "Вес и цена",
-    inscription_label_cake: "Надпись на торте",
-    inscription_label_other: "Пожелание (по желанию)",
-    inscription_hint: "При желании напишите здесь текст для торта (не обязательно)",
-    inscription_placeholder: "Например: С днём рождения, Айгерим!",
-    datetime_section_title: "На какую дату и время",
-    date_field_label: "Дата",
-    time_field_label: "Время",
-    delivery_section_title: "Способ доставки",
-    delivery_pill_delivery: "Доставка",
-    delivery_pill_pickup: "Заберу сам",
-    address_field_label: "Адрес",
-    address_placeholder: "Улица, дом, квартира, подъезд",
-    payment_section_title: "Способ оплаты",
-    payment_pill_kaspi: "Kaspi",
-    payment_pill_cash: "Наличными",
-    payment_hint_delivery: "При доставке оплата только через Kaspi",
-    name_section_title: "Ваше имя",
-    name_hint: "Не обязательно, но поможет узнать ваш заказ",
-    name_placeholder: "Ваше имя",
-    order_total_label: "Итоговая сумма",
-    final_order_btn: "Оформить заказ",
-    err_date: "Выберите нужную дату.",
-    err_time: "Выберите нужное время.",
-    err_delivery: "Выберите способ доставки.",
-    err_address: "Укажите адрес для доставки.",
-    err_payment: "Выберите способ оплаты.",
-    wa_greeting: "Здравствуйте! Новый заказ:",
-    wa_product: "Товар: ",
-    wa_weight: "Вес: ",
-    wa_price: "Цена: ",
-    wa_inscription: "Надпись/пожелание: ",
-    wa_date: "Нужная дата: ",
-    wa_time: "Время: ",
-    wa_delivery: "Способ доставки: ",
-    wa_delivery_val: "Доставка",
-    wa_pickup_val: "Заберу сам",
-    wa_address: "Адрес: ",
-    wa_name: "Имя: ",
-    wa_city: "Город: Караганда",
-    wa_payment: "Способ оплаты: ",
-    wa_payment_kaspi: "Kaspi",
-    wa_payment_cash: "Наличными",
-    wa_greet_generic: "Здравствуйте! ",
-    wa_generic_product: "Я хотел(а) бы заказать: ",
-    wa_generic_city_suffix: ". Город Караганда.",
-    wa_generic_no_product: "Могу я сделать заказ из меню? Город Караганда.",
-    price_from: "от",
-    cert_label: "Сертификат",
-    weight_prefix: "Вес: "
+    phone_label:"Заказ через WhatsApp",header_order_btn:"Оформить заказ",
+    nav_tortlar:"Торты",nav_desertter:"Десерты",
+    nav_kapkeikter:"Капкейки и тарталетки",nav_makarons:"Макаронс и безе",
+    nav_setter:"Сеты и сертификаты",
+    hero_eyebrow:"Караганда · Заказ через WhatsApp",
+    hero_h1:"Торты и десерты<br>для сладких моментов",
+    hero_lead:"Вы сами выбираете вес торта, оставляете надпись, указываете нужную дату, время и способ доставки — после этого заказ одной кнопкой отправляется в WhatsApp.",
+    hero_btn_menu:"Смотреть меню",hero_btn_wa:"Написать в WhatsApp",
+    hero_note:"Готовим по городу Караганда, заказ принимается заранее",
+    info_1:"Заказы принимаются только через WhatsApp",info_2:"Ежедневно 09:00–20:00",
+    info_3:"Караганда — самовывоз и доставка",
+    cat_tortlar_h2:"Торты",
+    cat_tortlar_p:"Вы сами выбираете вес: 0.5 кг, 1 кг или 1.5 кг. Есть возможность добавить дизайн и надпись.",
+    cat_desertter_h2:"Десерты",cat_desertter_p:"Порционные десерты — как подарок или для себя.",
+    cat_kapkeikter_h2:"Капкейки и тарталетки",cat_kapkeikter_p:"Отлично подойдут к чаю, для офиса или детского праздника.",
+    cat_makarons_h2:"Макаронс и безе",cat_makarons_p:"Разноцветные нежные десерты, каждый готовится отдельно.",
+    cat_setter_h2:"Сеты и сертификаты",cat_setter_p:"Готовые наборы к празднику и подарочные сертификаты на любую сумму.",
+    cta_h2:"Отправьте готовый заказ<br>в WhatsApp",
+    cta_p:"Выберите товар и нажмите «Оформить заказ» — укажите вес, дату, время и способ доставки, готовое сообщение откроется в WhatsApp.",
+    cta_btn_menu:"Смотреть меню",
+    foot_brand_p:"Мастерская тортов и десертов в городе Караганда. Заказы принимаются через WhatsApp, срок изготовления согласовывается заранее в зависимости от позиции.",
+    foot_contact_h4:"Контакты",foot_city:"город Караганда",foot_hours:"Ежедневно 09:00–20:00",
+    foot_cat_h4:"Категории",foot_bottom_left:"Шекерім — демо-сайт, Караганда",
+    foot_bottom_right:"Все заказы подтверждаются через WhatsApp",
+    float_wa_aria:"Написать в WhatsApp",back_btn:"Вернуться в меню",
+    order_header_h2:"Оформление заказа",weight_section_multi_label:"Выберите вес",
+    weight_section_fixed_label:"Вес и цена",
+    inscription_label_cake:"Надпись на торте",inscription_label_other:"Пожелание (по желанию)",
+    inscription_hint:"При желании напишите здесь текст для торта (не обязательно)",
+    inscription_placeholder:"Например: С днём рождения, Айгерим!",
+    datetime_section_title:"На какую дату и время",date_field_label:"Дата",time_field_label:"Время",
+    delivery_section_title:"Способ доставки",delivery_pill_delivery:"Доставка",delivery_pill_pickup:"Заберу сам",
+    address_field_label:"Адрес",address_placeholder:"Улица, дом, квартира, подъезд",
+    payment_section_title:"Способ оплаты",payment_pill_kaspi:"Kaspi",payment_pill_cash:"Наличными",
+    payment_hint_delivery:"При доставке оплата только через Kaspi",
+    name_section_title:"Ваше имя",name_hint:"Не обязательно, но поможет узнать ваш заказ",
+    name_placeholder:"Ваше имя",order_total_label:"Итоговая сумма",final_order_btn:"Оформить заказ",
+    err_date:"Выберите нужную дату.",err_time:"Выберите нужное время.",
+    err_delivery:"Выберите способ доставки.",err_address:"Укажите адрес для доставки.",
+    err_payment:"Выберите способ оплаты.",
+    wa_greeting:"Здравствуйте! Новый заказ:",wa_product:"Товар: ",wa_weight:"Вес: ",
+    wa_price:"Цена: ",wa_inscription:"Надпись/пожелание: ",wa_date:"Нужная дата: ",wa_time:"Время: ",
+    wa_delivery:"Способ доставки: ",wa_delivery_val:"Доставка",wa_pickup_val:"Заберу сам",
+    wa_address:"Адрес: ",wa_name:"Имя: ",wa_city:"Город: Караганда",
+    wa_payment:"Способ оплаты: ",wa_payment_kaspi:"Kaspi",wa_payment_cash:"Наличными",
+    wa_greet_generic:"Здравствуйте! ",wa_generic_product:"Я хотел(а) бы заказать: ",
+    wa_generic_city_suffix:". Город Караганда.",
+    wa_generic_no_product:"Могу я сделать заказ из меню? Город Караганда.",
+    price_from:"от",cert_label:"Сертификат",weight_prefix:"Вес: "
   }
 };
 
 const SIMPLE_TEXT_IDS = {
-  phoneLabel: "phone_label",
-  headerOrderBtnText: "header_order_btn",
-  navTortlar: "nav_tortlar",
-  navDesertter: "nav_desertter",
-  navKapkeikter: "nav_kapkeikter",
-  navMakarons: "nav_makarons",
-  navSetter: "nav_setter",
-  heroEyebrow: "hero_eyebrow",
-  heroLead: "hero_lead",
-  heroBtnMenuText: "hero_btn_menu",
-  heroBtnWaText: "hero_btn_wa",
-  heroNote: "hero_note",
-  infoItem1: "info_1",
-  infoItem2: "info_2",
-  infoItem3: "info_3",
-  catTortlarH2: "cat_tortlar_h2",
-  catTortlarP: "cat_tortlar_p",
-  catDesertterH2: "cat_desertter_h2",
-  catDesertterP: "cat_desertter_p",
-  catKapkeikterH2: "cat_kapkeikter_h2",
-  catKapkeikterP: "cat_kapkeikter_p",
-  catMakaronsH2: "cat_makarons_h2",
-  catMakaronsP: "cat_makarons_p",
-  catSetterH2: "cat_setter_h2",
-  catSetterP: "cat_setter_p",
-  ctaP: "cta_p",
-  ctaBtnMenuText: "cta_btn_menu",
-  footBrandP: "foot_brand_p",
-  footContactH4: "foot_contact_h4",
-  footCity: "foot_city",
-  footHours: "foot_hours",
-  footCatH4: "foot_cat_h4",
-  footNavTortlar: "nav_tortlar",
-  footNavDesertter: "nav_desertter",
-  footNavKapkeikter: "nav_kapkeikter",
-  footNavSetter: "nav_setter",
-  footBottomLeft: "foot_bottom_left",
-  footBottomRight: "foot_bottom_right",
-  backBtnText: "back_btn",
-  orderHeaderH2: "order_header_h2",
-  weightSectionMultiLabel: "weight_section_multi_label",
-  weightSectionFixedLabel: "weight_section_fixed_label",
-  inscriptionHint: "inscription_hint",
-  datetimeSectionTitle: "datetime_section_title",
-  dateFieldLabel: "date_field_label",
-  timeFieldLabel: "time_field_label",
-  deliverySectionTitle: "delivery_section_title",
-  deliveryPillDeliveryText: "delivery_pill_delivery",
-  deliveryPillPickupText: "delivery_pill_pickup",
-  addressFieldLabel: "address_field_label",
-  paymentSectionTitle: "payment_section_title",
-  paymentPillKaspiText: "payment_pill_kaspi",
-  paymentPillCashText: "payment_pill_cash",
-  nameSectionTitle: "name_section_title",
-  nameHint: "name_hint",
-  orderTotalLabel: "order_total_label",
-  finalOrderBtnText: "final_order_btn"
+  phoneLabel:"phone_label",headerOrderBtnText:"header_order_btn",
+  navTortlar:"nav_tortlar",navDesertter:"nav_desertter",
+  navKapkeikter:"nav_kapkeikter",navMakarons:"nav_makarons",navSetter:"nav_setter",
+  heroEyebrow:"hero_eyebrow",heroLead:"hero_lead",heroBtnMenuText:"hero_btn_menu",
+  heroBtnWaText:"hero_btn_wa",heroNote:"hero_note",
+  infoItem1:"info_1",infoItem2:"info_2",infoItem3:"info_3",
+  catTortlarH2:"cat_tortlar_h2",catTortlarP:"cat_tortlar_p",
+  catDesertterH2:"cat_desertter_h2",catDesertterP:"cat_desertter_p",
+  catKapkeikterH2:"cat_kapkeikter_h2",catKapkeikterP:"cat_kapkeikter_p",
+  catMakaronsH2:"cat_makarons_h2",catMakaronsP:"cat_makarons_p",
+  catSetterH2:"cat_setter_h2",catSetterP:"cat_setter_p",
+  ctaP:"cta_p",ctaBtnMenuText:"cta_btn_menu",
+  footBrandP:"foot_brand_p",footContactH4:"foot_contact_h4",
+  footCity:"foot_city",footHours:"foot_hours",footCatH4:"foot_cat_h4",
+  footNavTortlar:"nav_tortlar",footNavDesertter:"nav_desertter",
+  footNavKapkeikter:"nav_kapkeikter",footNavSetter:"nav_setter",
+  footBottomLeft:"foot_bottom_left",footBottomRight:"foot_bottom_right",
+  backBtnText:"back_btn",orderHeaderH2:"order_header_h2",
+  weightSectionMultiLabel:"weight_section_multi_label",
+  weightSectionFixedLabel:"weight_section_fixed_label",
+  inscriptionHint:"inscription_hint",datetimeSectionTitle:"datetime_section_title",
+  dateFieldLabel:"date_field_label",timeFieldLabel:"time_field_label",
+  deliverySectionTitle:"delivery_section_title",
+  deliveryPillDeliveryText:"delivery_pill_delivery",deliveryPillPickupText:"delivery_pill_pickup",
+  addressFieldLabel:"address_field_label",
+  paymentSectionTitle:"payment_section_title",
+  paymentPillKaspiText:"payment_pill_kaspi",paymentPillCashText:"payment_pill_cash",
+  nameSectionTitle:"name_section_title",nameHint:"name_hint",
+  orderTotalLabel:"order_total_label",finalOrderBtnText:"final_order_btn"
 };
 
 function applyStaticStrings(lang){
@@ -706,11 +876,11 @@ function setLanguage(lang){
   }
 }
 
-const catLabelKeyByType = {cake:"nav_tortlar", dessert:"nav_desertter", cupcake:"nav_kapkeikter", macaron:"nav_makarons", set:"nav_setter"};
+const catLabelKeyByType = {cake:"nav_tortlar",dessert:"nav_desertter",cupcake:"nav_kapkeikter",macaron:"nav_makarons",set:"nav_setter"};
 const artPalettes = {
-  cake:{bg:"#F3D9DC", fg:"#6E2A3A"}, dessert:{bg:"#F6E6D8", fg:"#B8862F"},
-  cupcake:{bg:"#EFE1EE", fg:"#6E2A3A"}, macaron:{bg:"#E7DCCF", fg:"#8A3B4C"},
-  set:{bg:"#6E2A3A", fg:"#F3D9DC"}
+  cake:{bg:"#F3D9DC",fg:"#6E2A3A"},dessert:{bg:"#F6E6D8",fg:"#B8862F"},
+  cupcake:{bg:"#EFE1EE",fg:"#6E2A3A"},macaron:{bg:"#E7DCCF",fg:"#8A3B4C"},
+  set:{bg:"#6E2A3A",fg:"#F3D9DC"}
 };
 const icons = {
   cake:'<svg viewBox="0 0 64 64" fill="none" xmlns="http://www.w3.org/2000/svg"><rect x="8" y="34" width="48" height="20" rx="4" fill="currentColor"/><rect x="8" y="34" width="48" height="6" rx="3" fill="white" opacity="0.35"/><rect x="14" y="18" width="36" height="18" rx="4" fill="currentColor" opacity="0.75"/><path d="M20 18c0-5 3-4 3-9M32 18c0-6 4-5 4-10M44 18c0-5 3-4 3-9" stroke="currentColor" stroke-width="3" stroke-linecap="round"/></svg>',
@@ -724,39 +894,35 @@ function makeArt(type){const p=artPalettes[type];return '<div class="card-art" s
 function money(n){return n.toLocaleString('ru-RU')+" ₸";}
 
 const PRODUCTS = [
-  {id:"tort-medovik", cat:"tortlar", type:"cake", name:"Медовик тортысы", name_ru:"Торт Медовик", desc:"Жұқа бал қабатты қамыр, нәзік қаймақ кремі.", desc_ru:"Тонкие медовые коржи, нежный сметанный крем.", variants:[{weight:"0.5 кг",price:4200},{weight:"1 кг",price:7200},{weight:"1.5 кг",price:10200}]},
-  {id:"tort-redvelvet", cat:"tortlar", type:"cake", name:"Қызыл барқыт тортысы", name_ru:"Торт Красный бархат", desc:"Дымқыл қызыл бисквит, кремсыр негізіндегі крем.", desc_ru:"Влажный красный бисквит, крем на основе крем-сыра.", variants:[{weight:"0.5 кг",price:4700},{weight:"1 кг",price:8200},{weight:"1.5 кг",price:11700}]},
-  {id:"tort-chocobanan", cat:"tortlar", type:"cake", name:"Шоколад-банан тортысы", name_ru:"Торт Шоколад-банан", desc:"Шоколад қабаттары мен банан кремі.", desc_ru:"Шоколадные коржи и банановый крем.", variants:[{weight:"0.5 кг",price:4400},{weight:"1 кг",price:7500},{weight:"1.5 кг",price:10600}]},
-  {id:"tort-napoleon", cat:"tortlar", type:"cake", name:"Наполеон тортысы", name_ru:"Торт Наполеон", desc:"Қытырлақ қабатты қамыр, сүтті заварной крем.", desc_ru:"Хрустящее слоёное тесто, молочный заварной крем.", variants:[{weight:"0.5 кг",price:4300},{weight:"1 кг",price:7300},{weight:"1.5 кг",price:10300}]},
-  {id:"tort-cheesecake", cat:"tortlar", type:"cake", name:"Чизкейк Нью-Йорк", name_ru:"Чизкейк Нью-Йорк", desc:"Классикалық крем-сыр негізіндегі тығыз чизкейк.", desc_ru:"Классический плотный чизкейк на основе крем-сыра.", variants:[{weight:"0.5 кг",price:5100},{weight:"1 кг",price:8900},{weight:"1.5 кг",price:12600}]},
-  {id:"tort-carrot", cat:"tortlar", type:"cake", name:"Сәбізді торт", name_ru:"Морковный торт", desc:"Дәмдеуіштермен піскен сәбізді бисквит, крем-сыр.", desc_ru:"Морковный бисквит на пряностях, крем-сыр.", variants:[{weight:"0.5 кг",price:4600},{weight:"1 кг",price:7900},{weight:"1.5 кг",price:11200}]},
-
-  {id:"des-tiramisu", cat:"desertter", type:"dessert", name:"Тирамису", name_ru:"Тирамису", desc:"Кофеге малынған савоярди, маскарпоне кремі.", desc_ru:"Савоярди, пропитанные кофе, крем маскарпоне.", variants:[{weight:"190 г",price:1690}]},
-  {id:"des-pavlova", cat:"desertter", type:"dessert", name:"Павлова құрттама-жидекпен", name_ru:"Павлова с ягодами", desc:"Қытырлақ безе, кремі және маусымдық жидек.", desc_ru:"Хрустящая безе, крем и сезонные ягоды.", variants:[{weight:"140 г",price:1090}]},
-  {id:"des-lemontart", cat:"desertter", type:"dessert", name:"Лимон чиз-тарты", name_ru:"Лимонный чиз-тарт", desc:"Қышқыл-тәтті лимон кремі, қытырлақ негіз.", desc_ru:"Кисло-сладкий лимонный крем, хрустящая основа.", variants:[{weight:"100 г",price:1190}]},
-  {id:"des-fondant", cat:"desertter", type:"dessert", name:"Шоколад фонданы", name_ru:"Шоколадный фондан", desc:"Ішінде сұйық шоколады бар жылы десерт.", desc_ru:"Тёплый десерт с жидким шоколадом внутри.", variants:[{weight:"120 г",price:1290}]},
-
-  {id:"cup-vanilla", cat:"kapkeikter", type:"cupcake", name:"Ваниль капкейк", name_ru:"Ванильный капкейк", desc:"Жұмсақ ваниль бисквит, сливки кремі.", desc_ru:"Нежный ванильный бисквит, сливочный крем.", variants:[{weight:"80 г",price:890}]},
-  {id:"cup-redvelvet", cat:"kapkeikter", type:"cupcake", name:"Қызыл барқыт капкейк", name_ru:"Капкейк Красный бархат", desc:"Қызыл бисквит, крем-сыр топпинг.", desc_ru:"Красный бисквит, топпинг из крем-сыра.", variants:[{weight:"80 г",price:990}]},
-  {id:"cup-caramel", cat:"kapkeikter", type:"cupcake", name:"Карамель-жаңғақ тартталеткасы", name_ru:"Тарталетка карамель-орех", desc:"Қытырлақ негіз, тұтқыр карамель, жаңғақ.", desc_ru:"Хрустящая основа, тягучая карамель, орехи.", variants:[{weight:"90 г",price:1190}]},
-  {id:"cup-strawberry", cat:"kapkeikter", type:"cupcake", name:"Құлпынай-чиз тартталеткасы", name_ru:"Тарталетка клубника-чиз", desc:"Нәзік чизкейк, свежий құлпынай.", desc_ru:"Нежный чизкейк, свежая клубника.", variants:[{weight:"100 г",price:1290}]},
-
-  {id:"mac-set6", cat:"makarons", type:"macaron", name:"Макаронс жиынтығы (6 дана)", name_ru:"Набор макаронс (6 шт)", desc:"Түрлі дәмдегі 6 макаронстан тұратын жиынтық.", desc_ru:"Набор из 6 макаронс с разными вкусами.", variants:[{weight:"180 г",price:3600}]},
-  {id:"mac-meringue", cat:"makarons", type:"macaron", name:"Безе себет тәттісі", name_ru:"Безе-корзиночка", desc:"Жеке қытырлақ безе, жеңіл әрі әуе секілді.", desc_ru:"Порционное хрустящее безе, лёгкое и воздушное.", variants:[{weight:"60 г",price:690}]},
-
-  {id:"set-mereke", cat:"setter", type:"set", name:'"Мереке" сеті', name_ru:'Сет "Мереке"', desc:"Торт кесегі, десерт және макаронстан тұратын жинақ.", desc_ru:"Набор из кусочка торта, десерта и макаронс.", variants:[{weight:"2 адамға",weight_ru:"на 2 человека",price:6900}], tag:"Танымал", tag_ru:"Популярно"},
-  {id:"cert-10000", cat:"setter", type:"set", isCert:true, name:"Сый сертификаты — 10 000 ₸", name_ru:"Подарочный сертификат — 10 000 ₸", desc:"Кез келген позицияға қолданылады, мерзімі шектелмеген.", desc_ru:"Действует на любую позицию, срок не ограничен.", variants:[{weight:"—",price:10000}]},
-  {id:"cert-20000", cat:"setter", type:"set", isCert:true, name:"Сый сертификаты — 20 000 ₸", name_ru:"Подарочный сертификат — 20 000 ₸", desc:"Кез келген позицияға қолданылады, мерзімі шектелмеген.", desc_ru:"Действует на любую позицию, срок не ограничен.", variants:[{weight:"—",price:20000}]}
+  {id:"tort-medovik",cat:"tortlar",type:"cake",name:"Медовик тортысы",name_ru:"Торт Медовик",desc:"Жұқа бал қабатты қамыр, нәзік қаймақ кремі.",desc_ru:"Тонкие медовые коржи, нежный сметанный крем.",variants:[{weight:"0.5 кг",price:4200},{weight:"1 кг",price:7200},{weight:"1.5 кг",price:10200}]},
+  {id:"tort-redvelvet",cat:"tortlar",type:"cake",name:"Қызыл барқыт тортысы",name_ru:"Торт Красный бархат",desc:"Дымқыл қызыл бисквит, кремсыр негізіндегі крем.",desc_ru:"Влажный красный бисквит, крем на основе крем-сыра.",variants:[{weight:"0.5 кг",price:4700},{weight:"1 кг",price:8200},{weight:"1.5 кг",price:11700}]},
+  {id:"tort-chocobanan",cat:"tortlar",type:"cake",name:"Шоколад-банан тортысы",name_ru:"Торт Шоколад-банан",desc:"Шоколад қабаттары мен банан кремі.",desc_ru:"Шоколадные коржи и банановый крем.",variants:[{weight:"0.5 кг",price:4400},{weight:"1 кг",price:7500},{weight:"1.5 кг",price:10600}]},
+  {id:"tort-napoleon",cat:"tortlar",type:"cake",name:"Наполеон тортысы",name_ru:"Торт Наполеон",desc:"Қытырлақ қабатты қамыр, сүтті заварной крем.",desc_ru:"Хрустящее слоёное тесто, молочный заварной крем.",variants:[{weight:"0.5 кг",price:4300},{weight:"1 кг",price:7300},{weight:"1.5 кг",price:10300}]},
+  {id:"tort-cheesecake",cat:"tortlar",type:"cake",name:"Чизкейк Нью-Йорк",name_ru:"Чизкейк Нью-Йорк",desc:"Классикалық крем-сыр негізіндегі тығыз чизкейк.",desc_ru:"Классический плотный чизкейк на основе крем-сыра.",variants:[{weight:"0.5 кг",price:5100},{weight:"1 кг",price:8900},{weight:"1.5 кг",price:12600}]},
+  {id:"tort-carrot",cat:"tortlar",type:"cake",name:"Сәбізді торт",name_ru:"Морковный торт",desc:"Дәмдеуіштермен піскен сәбізді бисквит, крем-сыр.",desc_ru:"Морковный бисквит на пряностях, крем-сыр.",variants:[{weight:"0.5 кг",price:4600},{weight:"1 кг",price:7900},{weight:"1.5 кг",price:11200}]},
+  {id:"des-tiramisu",cat:"desertter",type:"dessert",name:"Тирамису",name_ru:"Тирамису",desc:"Кофеге малынған савоярди, маскарпоне кремі.",desc_ru:"Савоярди, пропитанные кофе, крем маскарпоне.",variants:[{weight:"190 г",price:1690}]},
+  {id:"des-pavlova",cat:"desertter",type:"dessert",name:"Павлова құрттама-жидекпен",name_ru:"Павлова с ягодами",desc:"Қытырлақ безе, кремі және маусымдық жидек.",desc_ru:"Хрустящая безе, крем и сезонные ягоды.",variants:[{weight:"140 г",price:1090}]},
+  {id:"des-lemontart",cat:"desertter",type:"dessert",name:"Лимон чиз-тарты",name_ru:"Лимонный чиз-тарт",desc:"Қышқыл-тәтті лимон кремі, қытырлақ негіз.",desc_ru:"Кисло-сладкий лимонный крем, хрустящая основа.",variants:[{weight:"100 г",price:1190}]},
+  {id:"des-fondant",cat:"desertter",type:"dessert",name:"Шоколад фонданы",name_ru:"Шоколадный фондан",desc:"Ішінде сұйық шоколады бар жылы десерт.",desc_ru:"Тёплый десерт с жидким шоколадом внутри.",variants:[{weight:"120 г",price:1290}]},
+  {id:"cup-vanilla",cat:"kapkeikter",type:"cupcake",name:"Ваниль капкейк",name_ru:"Ванильный капкейк",desc:"Жұмсақ ваниль бисквит, сливки кремі.",desc_ru:"Нежный ванильный бисквит, сливочный крем.",variants:[{weight:"80 г",price:890}]},
+  {id:"cup-redvelvet",cat:"kapkeikter",type:"cupcake",name:"Қызыл барқыт капкейк",name_ru:"Капкейк Красный бархат",desc:"Қызыл бисквит, крем-сыр топпинг.",desc_ru:"Красный бисквит, топпинг из крем-сыра.",variants:[{weight:"80 г",price:990}]},
+  {id:"cup-caramel",cat:"kapkeikter",type:"cupcake",name:"Карамель-жаңғақ тартталеткасы",name_ru:"Тарталетка карамель-орех",desc:"Қытырлақ негіз, тұтқыр карамель, жаңғақ.",desc_ru:"Хрустящая основа, тягучая карамель, орехи.",variants:[{weight:"90 г",price:1190}]},
+  {id:"cup-strawberry",cat:"kapkeikter",type:"cupcake",name:"Құлпынай-чиз тартталеткасы",name_ru:"Тарталетка клубника-чиз",desc:"Нәзік чизкейк, свежий құлпынай.",desc_ru:"Нежный чизкейк, свежая клубника.",variants:[{weight:"100 г",price:1290}]},
+  {id:"mac-set6",cat:"makarons",type:"macaron",name:"Макаронс жиынтығы (6 дана)",name_ru:"Набор макаронс (6 шт)",desc:"Түрлі дәмдегі 6 макаронстан тұратын жиынтық.",desc_ru:"Набор из 6 макаронс с разными вкусами.",variants:[{weight:"180 г",price:3600}]},
+  {id:"mac-meringue",cat:"makarons",type:"macaron",name:"Безе себет тәттісі",name_ru:"Безе-корзиночка",desc:"Жеке қытырлақ безе, жеңіл әрі әуе секілді.",desc_ru:"Порционное хрустящее безе, лёгкое и воздушное.",variants:[{weight:"60 г",price:690}]},
+  {id:"set-mereke",cat:"setter",type:"set",name:'"Мереке" сеті',name_ru:'Сет "Мереке"',desc:"Торт кесегі, десерт және макаронстан тұратын жинақ.",desc_ru:"Набор из кусочка торта, десерта и макаронс.",variants:[{weight:"2 адамға",weight_ru:"на 2 человека",price:6900}],tag:"Танымал",tag_ru:"Популярно"},
+  {id:"cert-10000",cat:"setter",type:"set",isCert:true,name:"Сый сертификаты — 10 000 ₸",name_ru:"Подарочный сертификат — 10 000 ₸",desc:"Кез келген позицияға қолданылады, мерзімі шектелмеген.",desc_ru:"Действует на любую позицию, срок не ограничен.",variants:[{weight:"—",price:10000}]},
+  {id:"cert-20000",cat:"setter",type:"set",isCert:true,name:"Сый сертификаты — 20 000 ₸",name_ru:"Подарочный сертификат — 20 000 ₸",desc:"Кез келген позицияға қолданылады, мерзімі шектелмеген.",desc_ru:"Действует на любую позицию, срок не ограничен.",variants:[{weight:"—",price:20000}]}
 ];
 
-function pname(item){return currentLang==="ru" ? item.name_ru : item.name;}
-function pdesc(item){return currentLang==="ru" ? item.desc_ru : item.desc;}
-function ptag(item){return currentLang==="ru" ? item.tag_ru : item.tag;}
-function getWeight(variant){return (currentLang==="ru" && variant.weight_ru) ? variant.weight_ru : variant.weight;}
+function pname(item){return currentLang==="ru"?item.name_ru:item.name;}
+function pdesc(item){return currentLang==="ru"?item.desc_ru:item.desc;}
+function ptag(item){return currentLang==="ru"?item.tag_ru:item.tag;}
+function getWeight(variant){return (currentLang==="ru"&&variant.weight_ru)?variant.weight_ru:variant.weight;}
 function catLabel(type){return STRINGS[currentLang][catLabelKeyByType[type]];}
 
 function priceLabel(item){
-  if(item.variants.length>1){ return money(item.variants[0].price)+' <small>'+STRINGS[currentLang].price_from+'</small>'; }
+  if(item.variants.length>1){return money(item.variants[0].price)+' <small>'+STRINGS[currentLang].price_from+'</small>';}
   return money(item.variants[0].price);
 }
 
@@ -895,7 +1061,6 @@ function selectDelivery(mode){
   } else {
     cashPill.classList.remove("pill-disabled");
     paymentHint.style.display = "none";
-    // Егер пайдаланушы бұрын "delivery" таңдамаған болса, төлемді тазалаймыз
     if(!currentPayment){
       kaspiPill.classList.remove("active");
       cashPill.classList.remove("active");
@@ -971,7 +1136,6 @@ function openWhatsapp(productLine){
   window.open("https://wa.me/" + WHATSAPP_NUMBER + "?text=" + encodeURIComponent(text), "_blank");
 }
 
-// Бастапқы жүктелуде статикалық мәтіндерді қолдану
 applyStaticStrings(currentLang);
 renderCatalog();
 </script>
